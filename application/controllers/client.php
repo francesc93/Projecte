@@ -98,8 +98,7 @@ class Client extends CI_Controller {
 					);
 				   $this->upload->initialize($config_file);
 				   if (!$this->upload->do_upload('foto')) {
-					$foto = NULL;	
-
+					$foto = NULL;
 					}
 				   $foto = base_url()."actualitat/".$this->upload->file_name;	
 				   $contrasenya = md5($this->input->post('contrasenya')); 
@@ -294,6 +293,7 @@ class Client extends CI_Controller {
 	            $usuari_data = array(
 	               'ID_USUARI' => $usuario->ID_USUARI,
 	               'EMAIL' => $usuario->EMAIL,
+	               'FOTO' => $usuario->FOTO,
 	               'NOM' => $usuario->NOM,
 	               'COGNOMS' => $usuario->COGNOMS,
 	               'FOTO' => $usuario->FOTO,
