@@ -53,8 +53,7 @@ $autoload['packages'] = array();
 */
 
 $autoload['libraries'] = array();
-$autoload['libraries'] = array('database','upload','session'); 
-
+$autoload['libraries'] = array('database','upload','session','form_validation'); 
 /*
 | -------------------------------------------------------------------
 |  Auto-load Helper Files
