@@ -1,0 +1,116 @@
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<script src="../js/script.js"></script>
+		<link rel="stylesheet" href="../css/estil.css">
+    </head>
+    <body>
+    	<div class="container-fluid">
+    		<div class="row"> 
+    			<header class="col-xs-12 col-sm-12 navbar-fixed-top ">	
+    			<div class="row">	
+	    			<div class="col-xs-1 col-sm-1 col-md-1" id="cercle">
+			   		 			<img class="img-responsive" src="<?php echo base_url('assets/client/img/escut2.png'); ?>" >
+			   		</div>
+	    			<div class="col-xs-1 col-sm-1 col-md-1">
+			   		 			<h1><i>Club natació Tortosa</i></h1>
+			   		</div>
+			   		<div class="col-xs-5 col-sm-9 col-md-9 pull-right" id="logos">
+			   			<nav class="navbar navbar-default">
+						  <div class="container-fluid">
+						    <!-- Brand and toggle get grouped for better mobile display -->
+						    <div class="navbar-header">
+						      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						        <span class="sr-only">Toggle navigation</span>
+						        <span class="icon-bar"></span>
+						        <span class="icon-bar"></span>
+						        <span class="icon-bar"></span>
+						      </button>
+						      
+						    </div>
+
+						    <!-- Collect the nav links, forms, and other content for toggling -->
+						    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">		      
+						      <ul class="nav navbar-nav">
+						      <li><a href="index">Inici</a></li>	
+						        <li><a href="quisom">Qui som</a></li>					      
+						        <?php 						            	
+							        if($this->session->userdata('logueado')){?>
+							        <li><a href="calendari">Calendari</a></li>						        
+						        <?php } ?>
+						         <li><a href="galeria">Galeria</a></li>
+						        <li><a href="urls" >Enllaços</a></li>
+						       	<?php 						            	
+							        if($this->session->userdata('logueado')){?>
+							        <li><a href="documents">Documents</a></li>						        
+						        <?php } ?>
+						        
+						        </ul>	
+						        <ul class="nav navbar-nav">
+						        <li class="dropdown">
+						          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						          	<span class="glyphicon glyphicon-user"></span>&nbsp;<?= $this->session->userdata('NOM');?>&nbsp;
+						          	<span class="caret"></span></a>
+						          <ul class="dropdown-menu" role="menu" id="dropdown-menu">
+						            
+						            <?php 						            	
+						            	if($this->session->userdata('logueado')){?>
+						            	<li><a href="cerrar_sesion">Tanca sessió</a></li>
+						            	<li><a href="perfil">Perfil</a></li>
+						            	<?php if($this->session->userdata('ROL')=='ENTRENADOR'){?>
+						            	<li><a href="../admin">Administracio</a></li>
+						            	<?php };?>
+						            	<?php }else{				            
+							            ?>
+							            <li><a href="login">Login</a></li>
+							            <li><a href="#">Registrat</a></li>
+							            <?php };?>
+						          </ul>
+						        </li>						        
+						      </ul>			 
+						    </div><!-- /.navbar-collapse -->
+						  </div><!-- /.container-fluid -->
+						</nav>			
+
+			   		</div>			   		
+			   	</div>
+		   		</header>		   		
+    		</div>
+    	</div>
+    	<br />
+    	<div style="margin-top: 200px"></div>	 
+
+
+    		<div id="footer">
+			     <div class="container">
+			        <p class="muted credit"> Desing web :
+			        	<a href="#">Francesc Fores Campos</a> and 
+			        	<a href="#">Albert Cañelles Panisello</a>.
+			        </p>
+			     </div>
+    		</div>
+    	<script type="text/javascript">
+				$(window).scroll(function() {
+				if ($(this).scrollTop() > 1){  
+				    $('header').addClass("sticky");
+				  }
+				  else{
+				    $('header').removeClass("sticky");
+				  }
+				});
+				$(window).scroll(function() {
+				if ($(this).scrollTop() > 1){  
+				    $('nav').addClass("sticky");
+				  }
+				  else{
+				    $('nav').removeClass("sticky");
+				  }
+				});
+		</script>
+    </body>
+</html>

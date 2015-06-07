@@ -1,0 +1,156 @@
+/*#o{
+	padding-left:0px;
+	padding-right:0px;
+}*/
+
+
+
+html{
+
+}
+body{
+
+}
+#logos{
+  margin-top:10px;
+}
+
+#num{
+  margin-right: -25px;
+  margin-top:10px;
+}
+header.sticky #num{
+  visibility: hidden;
+}
+
+#a{   
+ text-decoration:none;
+padding-left:5px;
+}   
+
+
+header{
+  position: fixed;
+  width: 100%;
+  height: 150px;
+  background: #FF564D;
+  color: #fff;
+  font-family: 'PT Sans', sans-serif;
+  transition: all 0.8s ease; 
+  box-shadow: 0px 0px 8px 8px #BABAB9;
+
+}
+
+header.sticky {
+  font-size: medium;
+  line-height: 48px;
+  height: 70px;
+  background: #891817;
+  text-align: left;
+  padding-left: 20px;
+  transition: all 0.4s ease;
+  box-shadow: 0px 0px 0px 0px #FFFFFE;
+}
+header div div h1{
+   
+}
+
+header.sticky div div h1{
+	font-size: medium;
+}
+header.sticky div  #cercle{
+	 width: 60px;
+     height: 60px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     background: white;
+     margin-left: 4px;
+     margin-top: 4px;
+}
+
+#cercle {
+     width: 100px;
+     height: 100px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     background: white;
+     margin-left: 10px;
+     margin-top: 10px;
+}
+
+#cercle img{
+     width: 100px;
+     height: 100px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     background: white;
+
+}
+
+header.sticky div  #cercle img{	 
+     height: 50px;
+     -moz-border-radius: 50%;
+     -webkit-border-radius: 50%;
+     border-radius: 50%;
+     background: white;
+     margin-top: 5px;
+}
+
+
+
+
+
+#calendar{
+	margin-top: 20px;
+}
+/* Actual Slider Element */
+.slider {
+    display: block;
+    width: 100%;
+    max-width: 1280px;
+    margin: 5px auto;
+    padding: 0;
+    list-style: none;
+}
+
+/* Slider Direct Child Element */
+.slider li {
+    width: 100%;
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Slider First Direct Child */
+.slider li:first-child {
+    display: block;
+}
+
+/* Slider Images, always flex with width of slider */
+.slider li img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px 5px 5px 5px;    
+}
+#footer{
+	background: #891817;
+}
+#footer div p{
+  color: white;
+}
+#footer div p a{
+  color: white;
+  text-decoration: none;
+}
+
+@import url(http://fonts.googleapis.com/css?family=Noto+Serif:400,700,400italic);
+
+.typekit {
+  font-family: "myriad-pro-condensed",sans-serif;
+} 
+
+.google {
+  font-family: 'Noto Serif', serif;
+}
