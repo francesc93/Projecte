@@ -10,18 +10,21 @@ class Client extends CI_Controller {
 	}
 	function index(){
 		$this->load->model('client_model');		
+		$data = array();
 	    $data['actualitat'] = $this->client_model->getActualitat();
 		$this->load->view('client/index', $data); // vista d'inici de clients
 	}
 	function llegirmes(){
 		$this->load->model('client_model');	
 		$id = $this->input->post('id');
+		$data = array();
 	    $data['actualitat'] = $this->client_model->getActualitat_llegir_mes($id);
 		$this->load->view('client/llegirmes', $data);			
 	}
 	function galeria_fotos(){
 		$this->load->model('client_model');	
 		$id = $this->input->post('id');
+		$data = array();
 	    $data['galeria']= $this->client_model->galeria_fotos($id);
 		$this->load->view('client/galeria_fotos', $data);	
 	}	
@@ -34,6 +37,7 @@ class Client extends CI_Controller {
 	function calendari(){
 		if($this->session->userdata('logueado')){
 				$this->load->model('actualitat_model');
+				$data = array();
 			   	$data['calendari']= $this->actualitat_model->get_calendari_usuaris();
 				$this->load->view('client/calendari_nou', $data);
 		}else{

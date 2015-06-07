@@ -25,6 +25,7 @@ class Admin extends CI_Controller {
 	public function index(){
 		if($this->loguejat() && ($this->rol()=='ENTRENADOR' || $this->rol()=='ADMINISTRADOR')){			
 			$this->load->model('actualitat_model');	
+			$data = array();
 			$data['actualitat'] = $this->actualitat_model->getActualitat();
 			$this->load->view('admin/index', $data); 
 		}else{
@@ -34,6 +35,7 @@ class Admin extends CI_Controller {
 	public function actualitat(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
 			$this->load->model('actualitat_model');		
+			$data = array();
 	       		$data['actualitat'] = $this->actualitat_model->getActualitat();
 	            $this->load->view('admin/gestioactualitat', $data);  
 		}else{
@@ -43,6 +45,7 @@ class Admin extends CI_Controller {
 	public function calendari(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
 			$this->load->model('actualitat_model');		
+			$data = array();
 	    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
 	        	$this->load->view('admin/gestiocalendari', $data);	         
 		}else{
@@ -88,7 +91,8 @@ class Admin extends CI_Controller {
 	}
 	public function usuaris(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
-				$this->load->model('actualitat_model');		
+				$this->load->model('actualitat_model');	
+				$data = array();	
 			    $data['usuaris'] = $this->actualitat_model->getUsuaris();
 			    $data['validar_usuari'] = $this->actualitat_model->getUsuaris_validar();
 			    $this->load->view('admin/gestiousuaris', $data);
@@ -117,7 +121,8 @@ class Admin extends CI_Controller {
 		$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
 		if ($this->form_validation->run() == FALSE)
 		    {		    
-	       		 $this->load->model('actualitat_model');		
+	       		 $this->load->model('actualitat_model');
+	       		 $data = array();		
 	       		$data['actualitat'] = $this->actualitat_model->getActualitat();
 	            $this->load->view('admin/gestioactualitat', $data);  
 		    }
@@ -150,7 +155,7 @@ class Admin extends CI_Controller {
 	        	}
 	    }
 	}
-	function inserta_resultats(){
+	public function inserta_resultats(){
 		 $config_file = array (
 					'upload_path' => './documents/',
 					'allowed_types' => 'pdf',
@@ -188,6 +193,7 @@ class Admin extends CI_Controller {
 		        if ($this->form_validation->run() == FALSE)
 		        {		        	
 		            $this->load->model('actualitat_model');		
+		            $data = array();
 		    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
 		        	$this->load->view('admin/gestiocalendari', $data);	
 		        }else{		       
@@ -284,10 +290,10 @@ class Admin extends CI_Controller {
 		'remove_spaces' => true,
 		);
 	$this->upload->initialize($config_file);
-	if(!$this->upload->do_multi_upload('archivos')) {		
+	/*if(!$this->upload->do_multi_upload('archivos')) {		
 	}
 	else {	
-	}
+	}*/
 	//$document = base_url()."galeria/".$titol."/".$this->upload->file_name;
 	$tot = count($this->upload->get_multi_upload_data());
 	//este for recorre el arreglo
@@ -334,7 +340,8 @@ class Admin extends CI_Controller {
 						
 						}
 					else {
-					$datos['success'] = $this->upload->get_multi_upload_data();
+				   $datos = array();
+				   $datos['success'] = $this->upload->get_multi_upload_data();
 				   $titol = $this->input->post('titol');	
 				   $this->load->model('actualitat_model');
 				   $this->actualitat_model->crearGaleria($titol);
@@ -352,7 +359,8 @@ class Admin extends CI_Controller {
 
 		        if ($this->form_validation->run() == FALSE)
 		        {		        	
-		            $this->load->model('actualitat_model');		
+		            $this->load->model('actualitat_model');	
+		            $data = array();	
 				    $data['usuaris'] = $this->actualitat_model->getUsuaris();
 				    $data['validar_usuari'] = $this->actualitat_model->getUsuaris_validar();
 				    $this->load->view('admin/gestiousuaris', $data);
@@ -383,7 +391,7 @@ class Admin extends CI_Controller {
 				   $sexe = $this->input->post('sexe'); 	
 				   $this->load->model('actualitat_model');
 				   $newDate = date('d-m-Y', strtotime($data_naixement));
-				   $categoria = $this->calcular_categoria($sexe, $this->calcular_edad($newDate), $estat);
+				   $categoria = $this->calcular_categoria($sexe,$this->calcular_edad($newDate),$estat);
 				   if($estat=='MASTER'){ 
 						$categoria='MASTER';
 					}
@@ -484,7 +492,7 @@ class Admin extends CI_Controller {
 				   $id = $this->uri->segment(3);
 				   
 				  $foto = base_url()."actualitat/".$this->upload->file_name;	
-				   $contrasenya = md5($this->input->post('contrasenya'));
+				  
 				   $email = $this->input->post('email');
 				   $nom = $this->input->post('nom'); 
 				   $cognoms = $this->input->post('cognoms');
