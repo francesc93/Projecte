@@ -8,7 +8,7 @@ class Admin extends CI_Controller {
 		$this->load->database();
 	}  
  
-	function index(){
+	public function index(){
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
 			$this->load->model('actualitat_model');	
 			$data['actualitat'] = $this->actualitat_model->getActualitat();
@@ -17,7 +17,7 @@ class Admin extends CI_Controller {
 			redirect('client/login');
 		}
 	}
-	function actualitat(){	
+	public function actualitat(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
 			$this->load->model('actualitat_model');		
 	       		$data['actualitat'] = $this->actualitat_model->getActualitat();
@@ -26,7 +26,7 @@ class Admin extends CI_Controller {
 			redirect('client/login');
 		}				      
 	}
-	function calendari(){	
+	public function calendari(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
 			$this->load->model('actualitat_model');		
 	    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
@@ -35,7 +35,7 @@ class Admin extends CI_Controller {
 			redirect('client/login');
 		} 			           
 	}
-	function documents(){	
+	public function documents(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
 				$this->load->model('actualitat_model');		
 		   		$data = $this->actualitat_model->getDocument();
@@ -45,7 +45,7 @@ class Admin extends CI_Controller {
 		} 					
 	        
 	}	
-		function urls(){	
+	public function urls(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
 				$this->load->model('actualitat_model');		
 		   		$data = $this->actualitat_model->get_urls();
@@ -55,7 +55,7 @@ class Admin extends CI_Controller {
 		} 					
 	        
 	}
-	function galeria(){
+	public function galeria(){
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
 				$this->load->model('actualitat_model');
 				$data = $this->actualitat_model->getgaleria();
@@ -65,14 +65,14 @@ class Admin extends CI_Controller {
 		} 							
 	          
 	}	
-	function eliminar_foto() {
+	public function eliminar_foto() {
 			$this->load->model('actualitat_model');
 			$id = $this->uri->segment(3);
 			$this->actualitat_model->eliminar_foto($id);			
 			system('rm -rf ./galeria/'.$id.'/');
 			redirect('admin/galeria');
 	}
-	function usuaris(){	
+	public function usuaris(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
 				$this->load->model('actualitat_model');		
 			    $data['usuaris'] = $this->actualitat_model->getUsuaris();
@@ -82,7 +82,7 @@ class Admin extends CI_Controller {
 			redirect('client/login');
 		}       
 	}   
-	function validar_usuari(){	
+	public function validar_usuari(){	
 		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
 				$id = $this->uri->segment(3);
 				$this->load->model('actualitat_model');	
@@ -92,12 +92,12 @@ class Admin extends CI_Controller {
 			redirect('client/login');
 		}		
 	}
-	function upload() {
+	public function upload() {
 		$data['content'] = 'actualitat';
 		$this->load->vars($data);
 		$this->load->view('actualitat');
 	}
-	function insertar_actualitat(){
+	public function insertar_actualitat(){
 	    $this->form_validation->set_rules('titol','Titul','required');
 		$this->form_validation->set_rules('comentari', 'Comentari', 'required');
 		$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
@@ -162,7 +162,7 @@ class Admin extends CI_Controller {
 	        		}
 	        		}
 	
-	function inserta_calendari(){
+	public function inserta_calendari(){
 				$this->form_validation->set_rules('competicio','Competicio','required');
 				$this->form_validation->set_rules('data_hora_1','Data','required');
 				$this->form_validation->set_rules('data_hora_2','Data fi','required');
@@ -194,7 +194,7 @@ class Admin extends CI_Controller {
 				    }
 	        	  
 	}
-	function insertar_document(){	
+	public function insertar_document(){	
 					
 				   $config_file = array (
 					'upload_path' => './documents/',
@@ -221,7 +221,7 @@ class Admin extends CI_Controller {
 	        		
 	        	}
 	}
-	function insertar_url(){	
+	public function insertar_url(){	
 				$this->form_validation->set_rules('titol','titol','required');
 				$this->form_validation->set_rules('url','Nom','required');
 				$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
@@ -240,7 +240,7 @@ class Admin extends CI_Controller {
 	        		
 	        	}
 	}
-	function insert_galeria (){
+	public function insert_galeria (){
 			$this->form_validation->set_rules('titol','Titol','required');
 			$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
 			$this->form_validation->set_rules("titol","titol","required|xss_clean|is_unique[GALERIES.nom]");
@@ -295,7 +295,7 @@ class Admin extends CI_Controller {
 
 
 	}
-			function do_upload_multiple(){	
+			public function do_upload_multiple(){	
 					//$titol = 	 
 					$directori = $this->input->post('titol');   
 					mkdir('./galeria/'.$directori.'/');
@@ -328,7 +328,7 @@ class Admin extends CI_Controller {
 	        }
 	    }
 	
-	function insertar_usuari(){	
+	public function insertar_usuari(){	
 		        $this->form_validation->set_rules('nom','nom','required');
 		        $this->form_validation->set_rules('contrasenya', 'contrasenya', 'required');
 		        $this->form_validation->set_rules("email","email","required|valid_email|xss_clean|is_unique[USUARIS_INTERNS.email]");
@@ -401,48 +401,48 @@ class Admin extends CI_Controller {
 	        	   }		          
 	        	}
 	}
-	function eliminar_usuari() {
+	public function eliminar_usuari() {
 	    		$this->load->model('actualitat_model');		
 				 $id = $this->uri->segment(3);
 				 $this->actualitat_model->eliminar_usuari($id);
 				 redirect('admin/usuaris');	
 	}
-		function eliminar_calendari() {
+		public function eliminar_calendari() {
 	    		$this->load->model('actualitat_model');		
 				 $id = $this->uri->segment(3);
 				 $this->actualitat_model->eliminar_calendari($id);
 				 redirect('admin/calendari');	
 	}
-	function eliminar_validar_usuari() {
+	public function eliminar_validar_usuari() {
 	    		$this->load->model('actualitat_model');		
 				 $id = $this->uri->segment(3);
 				 $this->actualitat_model->eliminar_validar_usuari($id);
 				 redirect('admin/usuaris');	
 	}
-	function eliminar_document() {
+	public function eliminar_document() {
 	    		$this->load->model('actualitat_model');		
 				$id = $this->uri->segment(3);
 				$this->actualitat_model->eliminar_document($id);
 				redirect('admin/documents');
 	}
-	function eliminar_url() {
+	public function eliminar_url() {
 	    		$this->load->model('actualitat_model');		
 				$id = $this->uri->segment(3);
 				$this->actualitat_model->eliminar_urls($id);
 				redirect('admin/urls');
 	}
-	function eliminar_actualitat() {
+	public function eliminar_actualitat() {
 	    		 $this->load->model('actualitat_model');		
 				 $id = $this->uri->segment(3);
 				 $this->actualitat_model->eliminar_actualitat($id);
 				 redirect('admin/actualitat');	
 	}
-	function get_usuari($id) {
+	public function get_usuari($id) {
 				$this->load->model('actualitat_model');	              
 				$data = $this->actualitat_model->getUsuario($id)->row();					  			  
 				$this->load->view('admin/modificar_usuari', $data);
 	}
-	function modificar_usuari() {
+	public function modificar_usuari() {
 				$this->form_validation->set_rules('nom','nom','required');
 		        $this->form_validation->set_rules('data_naixement', 'Data naixement', 'required');
 		        $this->form_validation->set_rules('email', 'email', 'required');
@@ -496,7 +496,7 @@ class Admin extends CI_Controller {
 	        	   
 	}
 
-	function update_actualitat() {
+	public function update_actualitat() {
 		$this->form_validation->set_rules('titol','Titul','required');
 		$this->form_validation->set_rules('comentari', 'Comentari', 'required');
         $this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
@@ -552,7 +552,7 @@ class Admin extends CI_Controller {
 			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
 			return $query->num_rows() === 0;
 			}
-	   function calcular_edad($fecha){
+	   public function calcular_edad($fecha){
 					    $dias = explode("-", $fecha, 3);
 					    $dias = mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
 					    $edad = (int)((time()-$dias)/31556926 );
@@ -560,7 +560,7 @@ class Admin extends CI_Controller {
 					}
 
 					// Funcio per calcular la categoria tenin en compte el sexe 
-					function calcular_categoria($sexe,$edad,$estat) {
+					public function calcular_categoria($sexe,$edad,$estat) {
 						switch($estat){
 							case 'Escolar':
 								switch ($edad) {
@@ -659,7 +659,7 @@ class Admin extends CI_Controller {
 
 					}
 
-					function calcular_temporada($anys) {
+					public function calcular_temporada($anys) {
 					            // Agafem el principi de cada temporada nova 
 					            $ninici = "1-09-".date("Y");
 					            $nfinal = "31-08-".date("Y", strtotime('+1 year'));
