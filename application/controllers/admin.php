@@ -8,9 +8,22 @@ class Admin extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->database();
 	}  
+	public function loguejat(){
+		if($this->session->userdata('logueado')){
+			return 1;
+		}else{
+		return 0;}
+	}
+	public function rol(){
+		if($this->session->userdata('ROL')){
+			return $this->session->userdata('ROL');
+		}else{
+		return 0;}
+	}
+
  
 	public function index(){
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && ($this->rol()=='ENTRENADOR' || $this->rol()=='ADMINISTRADOR')){			
 			$this->load->model('actualitat_model');	
 			$data['actualitat'] = $this->actualitat_model->getActualitat();
 			$this->load->view('admin/index', $data); 
@@ -190,7 +203,7 @@ class Admin extends CI_Controller {
 					}
 
 				   $this->load->model('actualitat_model');
-				   $this->actualitat_model->inserta_calendari($competicio, $data_hora_1, $data_hora_2, $estat, $categoria, $lloc, $resultats);
+				   $this->actualitat_model->inserta_calendari($competicio, $data_hora_1, $data_hora_2, $estat, $categoria, $lloc);
 				   redirect('admin/calendari');
 				    }
 	        	  
@@ -275,7 +288,7 @@ class Admin extends CI_Controller {
 	}
 	else {	
 	}
-	$document = base_url()."galeria/".$titol."/".$this->upload->file_name;
+	//$document = base_url()."galeria/".$titol."/".$this->upload->file_name;
 	$tot = count($this->upload->get_multi_upload_data());
 	//este for recorre el arreglo
 	$this->load->model('actualitat_model');
@@ -360,7 +373,6 @@ class Admin extends CI_Controller {
 				   $this->upload->initialize($config_file);
 				   if (!$this->upload->do_upload('foto')) {
 						$foto = NULL;	
-				   $usuari = $this->input->post('usuari');
 				   $contrasenya = md5($this->input->post('contrasenya'));
 				   $email = $this->input->post('email');
 				   $nom = $this->input->post('nom'); 
@@ -368,8 +380,7 @@ class Admin extends CI_Controller {
 				   $data_naixement = $this->input->post('data_naixement');  
 				   $rol = $this->input->post('rol'); 
 				   $estat = $this->input->post('estat'); 
-				   $sexe = $this->input->post('sexe'); 
-				   $categoria = $this->input->post('categoria'); 
+				   $sexe = $this->input->post('sexe'); 	
 				   $this->load->model('actualitat_model');
 				   $newDate = date('d-m-Y', strtotime($data_naixement));
 				   $categoria = $this->calcular_categoria($sexe, $this->calcular_edad($newDate), $estat);
@@ -381,7 +392,7 @@ class Admin extends CI_Controller {
 					}
 					else {
 				   $foto = base_url()."actualitat/".$this->upload->file_name;	
-				   $usuari = $this->input->post('usuari');
+				  
 				   $contrasenya = md5($this->input->post('contrasenya'));
 				   $email = $this->input->post('email');
 				   $nom = $this->input->post('nom'); 
@@ -389,8 +400,7 @@ class Admin extends CI_Controller {
 				   $data_naixement = $this->input->post('data_naixement');  
 				   $rol = $this->input->post('rol'); 
 				   $estat = $this->input->post('estat'); 
-				   $sexe = $this->input->post('sexe'); 
-				   $categoria = $this->input->post('categoria'); 
+				   $sexe = $this->input->post('sexe'); 	
 				   $this->load->model('actualitat_model');
 				   $newDate = date('d-m-Y', strtotime($data_naixement));
 				   $categoria = $this->calcular_categoria($sexe, $this->calcular_edad($newDate), $estat);
@@ -474,15 +484,13 @@ class Admin extends CI_Controller {
 				   $id = $this->uri->segment(3);
 				   
 				  $foto = base_url()."actualitat/".$this->upload->file_name;	
-				   $usuari = $this->input->post('usuari');
 				   $contrasenya = md5($this->input->post('contrasenya'));
 				   $email = $this->input->post('email');
 				   $nom = $this->input->post('nom'); 
 				   $cognoms = $this->input->post('cognoms');
 				   $data_naixement = $this->input->post('data_naixement');  
 				   $rol = $this->input->post('rol'); 
-				   $estat = $this->input->post('estat'); 
-				   $categoria = $this->input->post('categoria'); 
+				   $estat = $this->input->post('estat');  
 				   $sexe = $this->input->post('sexe'); 
 				   $this->load->model('actualitat_model');
 				   $newDate = date('d-m-Y', strtotime($data_naixement));
