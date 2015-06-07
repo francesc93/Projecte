@@ -15,15 +15,13 @@ class Admin extends CI_Controller {
 		return 0;}
 	}
 	public function rol(){
-		if($this->session->userdata('ROL')){
-			return $this->session->userdata('ROL');
+		if($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR'){
+			return 1;
 		}else{
 		return 0;}
 	}
-
- 
 	public function index(){
-		if($this->loguejat() && ($this->rol()=='ENTRENADOR' || $this->rol()=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){			
 			$this->load->model('actualitat_model');	
 			$data = array();
 			$data['actualitat'] = $this->actualitat_model->getActualitat();
@@ -33,17 +31,17 @@ class Admin extends CI_Controller {
 		}
 	}
 	public function actualitat(){	
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){				
 			$this->load->model('actualitat_model');		
 			$data = array();
-	       		$data['actualitat'] = $this->actualitat_model->getActualitat();
-	            $this->load->view('admin/gestioactualitat', $data);  
+	       	$data['actualitat'] = $this->actualitat_model->getActualitat();
+	        $this->load->view('admin/gestioactualitat', $data);  
 		}else{
 			redirect('client/login');
 		}				      
 	}
 	public function calendari(){	
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){				
 			$this->load->model('actualitat_model');		
 			$data = array();
 	    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
@@ -53,7 +51,7 @@ class Admin extends CI_Controller {
 		} 			           
 	}
 	public function documents(){	
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){				
 				$this->load->model('actualitat_model');		
 		   		$data = $this->actualitat_model->getDocument();
 		    	$this->load->view('admin/gestiodocuments', $data);	        
@@ -63,7 +61,7 @@ class Admin extends CI_Controller {
 	        
 	}	
 	public function urls(){	
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){				
 				$this->load->model('actualitat_model');		
 		   		$data = $this->actualitat_model->get_urls();
 		    	$this->load->view('admin/gestiourls', $data);	        
@@ -73,7 +71,7 @@ class Admin extends CI_Controller {
 	        
 	}
 	public function galeria(){
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){				
 				$this->load->model('actualitat_model');
 				$data = $this->actualitat_model->getgaleria();
 				$this->load->view('admin/gestiogaleria', $data);  
@@ -90,7 +88,7 @@ class Admin extends CI_Controller {
 			redirect('admin/galeria');
 	}
 	public function usuaris(){	
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){				
 				$this->load->model('actualitat_model');	
 				$data = array();	
 			    $data['usuaris'] = $this->actualitat_model->getUsuaris();
@@ -101,7 +99,7 @@ class Admin extends CI_Controller {
 		}       
 	}   
 	public function validar_usuari(){	
-		if($this->session->userdata('logueado') && ($this->session->userdata('ROL')=='ADMINISTRADOR')){			
+		if($this->loguejat() && $this->rol()){				
 				$id = $this->uri->segment(3);
 				$this->load->model('actualitat_model');	
 				$this->actualitat_model->validar_usuari($id);
