@@ -332,8 +332,6 @@ class Client extends CI_Controller {
 		        $this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
 		        $this->form_validation->set_message('valid_email', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El email no es valit</div>');
 
-
-
 		        if ($this->form_validation->run() == FALSE){		        	
 	            	$this->load->view('client/contacta');
 		        }
