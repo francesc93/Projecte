@@ -41,33 +41,33 @@
 									
 									<div class="form-group">
 										<label>Nom</label>
-										<input class="form-control" name='nom'>
+										<input class="form-control" name='nom' value="<?php echo set_value('nom'); ?>">
 									</div>
 									<div class="form-group">
 										<label>Cognoms</label>
-										<input class="form-control" name='cognoms'>
+										<input class="form-control" name='cognoms' value="<?php echo set_value('cognoms'); ?>">
 									</div>
 									<div class="form-group">
 										<label>Email</label>
-										<input class="form-control" name='email'>
+										<input class="form-control" name='email' value="<?php echo set_value('email'); ?>">
 									</div>
 									
 									<div class="form-group">
 										<label>Data de naixement</label>
-					                <input class="form-control" name='data_naixement'  type="text" placeholder="Data de naixement"  id="example1">
+					                <input class="form-control" name='data_naixement'  type="text" placeholder="Data de naixement"  id="example1" value="<?php echo set_value('data_naixement'); ?>">
 					            </div>
 								</div>
 								<div class="col-md-6">								
 																	
 									<div class="form-group">
 										<label>Contrasenya</label>
-										<input type="password" class="form-control" name='contrasenya'>
+										<input type="password" class="form-control" name='contrasenya' value="<?php echo set_value('contrasenya'); ?>">
 									</div>	
 										
 									
 									<div class="form-group">
 										<label>Estat</label>
-										<select class="form-control" name="estat">
+										<select class="form-control" name="estat" value="<?php echo set_value('estat'); ?>">
 											<option>Escolar</option>
 											<option>Federat</option>
 											<option>Master</option>
@@ -75,8 +75,8 @@
 									</div>
 									<div class="form-group">
 										<label>Sexe</label>
-										<select class="form-control" name="sexe">
-											<option>Masculí</option>
+										<select class="form-control" name="sexe" value="<?php echo set_value('sexe'); ?>">
+											<option>Masculí</option
 											<option>Femení</option>
 										</select>
 									</div>

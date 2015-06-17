@@ -262,7 +262,7 @@ class Admin extends CI_Controller {
 			$this->form_validation->set_rules('titol','Titol','required');
 			$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
 			$this->form_validation->set_rules("titol","titol","required|xss_clean|is_unique[GALERIES.nom]");
-			$this->form_validation->set_message('is_unique', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El %s  jaestá registrat</div>');
+			$this->form_validation->set_message('is_unique', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> La galeria %s  ja está registrada</div>');
 
 	
 	if ($this->form_validation->run() == FALSE)
@@ -288,10 +288,11 @@ class Admin extends CI_Controller {
 		'remove_spaces' => true,
 		);
 	$this->upload->initialize($config_file);
-	/*if(!$this->upload->do_multi_upload('archivos')) {		
+	if(!$this->upload->do_multi_upload('archivos')) {	
+
 	}
 	else {	
-	}*/
+	}
 	//$document = base_url()."galeria/".$titol."/".$this->upload->file_name;
 	$tot = count($this->upload->get_multi_upload_data());
 	//este for recorre el arreglo

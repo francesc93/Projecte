@@ -14,9 +14,9 @@
 						<ul class="dropdown-menu" role="menu">
 							<?php 						            	
 						        if($this->session->userdata('logueado')){?>						        
-						        <li><a href="../client/perfil">Perfil</a></li>	
-						        <li><a href="../client/index">Pàgina Web</a></li>
-								<li><a href="../client/cerrar_sesion">Tanca sessió</a></li>
+						        <li><a href="<?php echo base_url('/client/perfil') ?>">Perfil</a></li>	
+						        <li><a href="<?php echo base_url('/client/index') ?>">Pàgina Web</a></li>
+								<li><a href="<?php echo base_url('/client/cerrar_sesion') ?>">Tanca sessió</a></li>
 						        <?php };?>
 						</ul>
 					</li>

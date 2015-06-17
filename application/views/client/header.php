@@ -19,21 +19,21 @@
 						    <!-- Collect the nav links, forms, and other content for toggling -->
 						    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">		      
 						      <ul class="nav navbar-nav ">
-						      <li><a href="index">Inici</a></li>	
-						        <li><a href="quisom">Qui som</a></li>					      
-						         <li><a href="contacta">Contacta</a></li>			
+						      <li><a href="<?php echo base_url('/client/index') ?>">Inici</a></li>	
+						        <li><a href="<?php echo base_url('/client/quisom') ?>">Qui som</a></li>					      
+						         <li><a href="<?php echo base_url('/client/contacta') ?>">Contacta</a></li>			
 
 						        <?php 						            	
 							        if($this->session->userdata('logueado')){?>
-							        <li><a href="calendari">Calendari</a></li>						        
+							        <li><a href="<?php echo base_url('/client/calendari') ?>">Calendari</a></li>						        
 						        <?php } ?>
-						         <li><a href="galeria">Galeria</a></li>
+						         <li><a href="<?php echo base_url('/client/galeria') ?>">Galeria</a></li>
 						        <li><a href="urls" >Enllaços</a></li>
 						         <li><a href="http://www.baixadadelrenaixement.tk/" >Baixada R.</a></li>
 						        
 						       	<?php 						            	
 							        if($this->session->userdata('logueado')){?>
-							        <li><a href="documents">Documents</a></li>						        
+							        <li><a href="<?php echo base_url('/client/documents') ?>">Documents</a></li>						        
 						        <?php } ?>
                                   <li class="dropdown">
                                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -43,15 +43,15 @@
 
                                           <?php
                                           if($this->session->userdata('logueado')){?>
-                                              <li><a href="cerrar_sesion">Tanca sessió</a></li>
-                                              <li><a href="perfil">Perfil</a></li>
+                                              <li><a href="<?php echo base_url('/client/cerrar_sesion') ?>">Tanca sessió</a></li>
+                                              <li><a href="<?php echo base_url('/client/perfil') ?>">Perfil</a></li>
                                               <?php if($this->session->userdata('ROL')=='ENTRENADOR' || $this->session->userdata('ROL')=='ADMINISTRADOR'){?>
-                                                  <li><a href="../admin/index">Administracio</a></li>
+                                                  <li><a href="<?php echo base_url('/admin/index') ?>">Administracio</a></li>
                                               <?php };?>
                                           <?php }else{
                                               ?>
-                                              <li><a href="login">Login</a></li>
-                                              <li><a href="registrat">Registrat</a></li>
+                                              <li><a href="<?php echo base_url('/client/login') ?>">Login</a></li>
+                                              <li><a href="<?php echo base_url('/client/registrat') ?>">Registrat</a></li>
                                           <?php };?>
                                       </ul>
                                   </li>

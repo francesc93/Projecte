@@ -14,7 +14,7 @@
 | and path to your installation. However, you should always configure this
 | explicitly and never rely on auto-guessing, especially in production
 | environments.
-|
+|$config['base_url'] = 'http://localhost/projecte/';
 */
 $config['base_url'] = 'http://localhost/projecte/';
 
@@ -71,7 +71,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+$config['language']	= 'spanish';
 
 /*
 |--------------------------------------------------------------------------
@@ -226,7 +226,8 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'ee';
+$config['encryption_key'] = 'qweqweasdasd';
+$config['encryption_key'] = 'REALLY_LONG_NUMBER';
 
 /*
 |--------------------------------------------------------------------------
@@ -249,7 +250,7 @@ $config['encryption_key'] = 'ee';
 $config['sess_cookie_name']		= 'ci_session';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
-$config['sess_encrypt_cookie']	= FALSE;
+$config['sess_encrypt_cookie']	= TRUE; //dades de sessio encriptades
 $config['sess_use_database']	= FALSE;
 $config['sess_table_name']		= 'ci_sessions';
 $config['sess_match_ip']		= FALSE;

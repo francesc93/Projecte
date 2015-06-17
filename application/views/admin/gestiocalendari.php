@@ -29,7 +29,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="index"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="active">Calendari</li>
 			</ol>
 		</div><!--/.row-->
@@ -51,22 +51,22 @@
 							<div class="col-lg-6">					
 								<div class="form-group">
 									<label>Competició</label>
-									<input class="form-control" placeholder="Introdueix el text" name='competicio'>
+									<input class="form-control" placeholder="Introdueix el text" name='competicio' value="<?php echo set_value('competicio'); ?>">
 								</div>
 								
 								<div class="form-group">
 									<label>Dia i Hora </label>
-									 <input  type="text" class="form-control" id="datetimepicker" name="data_hora_1" placeholder="Dia i Hora">
+									 <input  type="text" class="form-control" id="datetimepicker" name="data_hora_1" value="<?php echo set_value('data_hora_1'); ?>" placeholder="Dia i Hora">
 								</div>
 								<div class="form-group">
 									<label>Dia i Hora fi</label>
-									 <input type="text" class="form-control" id="datetimepicker2" name="data_hora_2" placeholder="Dia i Hora">
+									 <input type="text" class="form-control" id="datetimepicker2" name="data_hora_2" value="<?php echo set_value('data_hora_2'); ?>" placeholder="Dia i Hora">
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
 									<label>Estat</label>
-									<select class="form-control" name="estat">
+									<select class="form-control" name="estat" id="estat">
 										<option>Escolar</option>
 										<option>Federat</option>
 										<option>Master</option>
@@ -74,7 +74,7 @@
 								</div>
 								<div class="form-group">
 									<label>CATEGORIA</label>
-									<select class="form-control" name="categoria">
+									<select class="form-control" name="categoria" id="categoria">
 										<option>PB</option>
 										<option>B</option>
 										<option>ALE</option>
@@ -88,7 +88,7 @@
 								</div>								
 								<div class="form-group">
 									<label>Lloc</label>
-									<input class="form-control" placeholder="Introdueix el text" name='lloc'>
+									<input class="form-control" placeholder="Introdueix el text" name='lloc' value="<?php echo set_value('lloc'); ?>">
 								</div>	
 															
 							</div>							
@@ -226,7 +226,13 @@
   modal.find('.modal-foto').val(foto)
 })
     </script> 
-   
+    <script type="text/javascript">
+   document.getElementById("estat").value = "<?php echo set_value('estat'); ?>";
+      document.getElementById("categoria").value = "<?php echo set_value('categoria'); ?>";
+
+	</script>
+
+
 </body>
 
 </html>

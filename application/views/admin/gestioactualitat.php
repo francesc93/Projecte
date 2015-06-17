@@ -54,7 +54,7 @@
 						<form action="insertar_actualitat" method="post" enctype="multipart/form-data">							
 								<div class="form-group">
 									<label>Titol</label>
-									<input class="form-control" name="titol" placeholder="Introdueix el text aquí">
+									<input class="form-control" name="titol" value="<?php echo set_value('titol'); ?>" placeholder="Introdueix el text aquí">
 								</div>
 								
 								<div class="form-group">
@@ -65,7 +65,7 @@
 							<div class="col-md-6 col-lg-12">
 								<div class="form-group">
 										<label>Comentari</label>
-										<textarea name="comentari" placeholder="Introdueix el text aquí." class="form-control" rows="3"></textarea>
+										<textarea id="textarea" name="comentari" placeholder="Introdueix el text aquí." class="form-control" rows="3"></textarea>
 									</div>
 							</div>
 							<div class="col-md-10" align="center">
@@ -201,6 +201,9 @@ $('#input').attr({
 })
   ////modal.find('.modal-titol input').val(titol)
 	</script>	
+	<script type="text/javascript">
+	document.getElementById("textarea").value = "<?php echo set_value('comentari'); ?>";
+	</script>
 </body>
 
 </html>
