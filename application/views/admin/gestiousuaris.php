@@ -33,7 +33,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="<?php echo base_url('/admin/index') ?>"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="active">Usuaris</li>
 			</ol>
 		</div><!--/.row-->
@@ -55,11 +55,11 @@
 							<div class="col-md-6">								
 								<div class="form-group">
 									<label>Nom</label>
-									<input class="form-control" name='nom' placeholder="Nom">
+									<input class="form-control" name='nom' value="<?php echo set_value('nom'); ?>" placeholder="Nom">
 								</div>
 								<div class="form-group">
 									<label>Cognoms</label>
-									<input class="form-control" name='cognoms' placeholder="Cognoms">
+									<input class="form-control" name='cognoms' value="<?php echo set_value('cognoms'); ?>" placeholder="Cognoms">
 								</div>
 								<div class="form-group">
 									<label>Foto</label>
@@ -67,11 +67,11 @@
 								</div>								
 								<div class="hero-unit form-group">
 								<label>Data de naixement</label>
-					                <input class="form-control" name='data_naixement'  type="text" placeholder="Data de naixement"  id="example1" >
+					                <input class="form-control" name='data_naixement' value="<?php echo set_value('data_naixement'); ?>" type="text" placeholder="Data de naixement"  id="example1" >
 					            </div>
 					            <div class="form-group">
 									<label>Email</label>
-									<input class="form-control" name='email' placeholder="Email">
+									<input class="form-control" name='email' value="<?php echo set_value('email'); ?>" placeholder="Email">
 								</div>
 							</div>
 							<div class="col-md-6">																								
@@ -85,7 +85,7 @@
 								</div>									
 								<div class="form-group">
 										<label>Sexe</label>
-										<select class="form-control" name="sexe" placeholder="Sexe">
+										<select class="form-control" name="sexe" placeholder="Sexe" id="sexe">
 											<option>Masculí</option>
 											<option>Femení</option>
 										</select>
@@ -97,7 +97,7 @@
 								</div>-->
 								<div class="form-group">	
 									<label>Rol</label>
-									<select class="form-control" name="rol">
+									<select class="form-control" name="rol" id="rol">
 										<option>NEDADOR</option>
 										<option>ENTRENADOR</option>
 										<option>ADMINISTRADOR</option>
@@ -105,7 +105,7 @@
 								</div>
 								<div class="form-group">
 									<label>Estat</label>
-									<select class="form-control" name="estat">
+									<select class="form-control" name="estat" id="estat">
 										<option>Escolar</option>
 										<option>Federat</option>
 										<option>Master</option>
@@ -257,6 +257,11 @@
                 });              
             });
         </script>
+        <script type="text/javascript">
+	document.getElementById("sexe").value = "<?php echo set_value('sexe'); ?>";
+	document.getElementById("rol").value = "<?php echo set_value('rol'); ?>";
+	document.getElementById("estat").value = "<?php echo set_value('estat'); ?>";
+	</script>
 </body>
 
 </html>

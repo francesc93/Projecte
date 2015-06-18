@@ -29,7 +29,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="index"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="<?php echo base_url('/admin/index') ?>"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="active">Calendari</li>
 			</ol>
 		</div><!--/.row-->
@@ -85,6 +85,7 @@
 										<option>ABS</option>
 										<option>MASTER</option>
 									</select>
+									
 								</div>								
 								<div class="form-group">
 									<label>Lloc</label>

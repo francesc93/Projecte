@@ -31,7 +31,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 			<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="<?php echo base_url('/admin/index') ?>"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="active">Actualitat</li>
 			</ol>
 		</div><!--/.row-->
@@ -100,7 +100,7 @@
 					                 <!--<td><img src="<?php //echo $llistaractualitat['foto']; ?>"></td>--> <!--Si volem mostra imatge utilitzarem aquest-->
 					                 <td><?php echo $llistaractualitat['foto']; ?></td> <!--Mostrarem la URL  -->
 					                <td>
-					                    <a href='' data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $llistaractualitat['id_blog']; ?>" data-idblog="<?php echo $llistaractualitat['id_blog']; ?>" data-titol="<?php echo $llistaractualitat['titol']; ?>" data-foto="<?php echo $llistaractualitat['foto']; ?>" data-comentari="<?php echo $llistaractualitat['comentari']; ?>" >
+					                    <a data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $llistaractualitat['id_blog']; ?>" data-idblog="<?php echo $llistaractualitat['id_blog']; ?>" data-titol="<?php echo $llistaractualitat['titol']; ?>" data-foto="<?php echo $llistaractualitat['foto']; ?>" data-comentari="<?php echo $llistaractualitat['comentari']; ?>" >
 					                        <button type="button" class="btn btn-warning btn-sm" >
 					                            <span class="glyphicon glyphicon-pencil"></span> 
 					                        </button>

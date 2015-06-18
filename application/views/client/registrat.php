@@ -67,7 +67,7 @@
 									
 									<div class="form-group">
 										<label>Estat</label>
-										<select class="form-control" name="estat" value="<?php echo set_value('estat'); ?>">
+										<select class="form-control" name="estat" id="estat">
 											<option>Escolar</option>
 											<option>Federat</option>
 											<option>Master</option>
@@ -75,8 +75,8 @@
 									</div>
 									<div class="form-group">
 										<label>Sexe</label>
-										<select class="form-control" name="sexe" value="<?php echo set_value('sexe'); ?>">
-											<option>Masculí</option
+										<select class="form-control" name="sexe" id="sexe">
+											<option>Masculí</option>
 											<option>Femení</option>
 										</select>
 									</div>
@@ -122,5 +122,9 @@
                 });              
             });
         </script>
+        <script type="text/javascript">
+	document.getElementById("sexe").value = "<?php echo set_value('sexe'); ?>";
+	document.getElementById("estat").value = "<?php echo set_value('estat'); ?>";
+	</script>
     </body>
 </html>

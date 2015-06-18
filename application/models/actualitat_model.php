@@ -20,10 +20,16 @@ class actualitat_model extends CI_Model {
     return $query->result_array();
   }
     public function getgaleria() {
-    $this->db->select('NOM, URL');
+    $this->db->select('ID,NOM, URL');
     $query = $this->db->get('GALERIES');
     return $query->result_array();
   }
+  public function galeria($id) {
+     $this->db->select('NOM');
+      $this->db->where('ID', $id);    
+      $query = $this->db->get('GALERIES');
+      return $query->result_array();
+    }
 
  public function insertar_url($titol, $url){
     $data = array(
@@ -113,7 +119,6 @@ public function getUsuaris() {
       'categoria' => $categoria,
       'sexe' => $sexe,
       'email' => $email,
-
     );
 
     $this->db->insert('USUARIS_INTERNS', $data);
@@ -176,7 +181,7 @@ public function getUsuaris() {
     }
 
      public  function eliminar_foto($id){
-      $this->db->where('NOM',$id);
+      $this->db->where('ID',$id);
       return $this->db->delete('GALERIES');
     }
 

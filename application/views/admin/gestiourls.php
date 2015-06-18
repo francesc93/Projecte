@@ -29,7 +29,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="<?php echo base_url('/admin/index') ?>"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="active">Enllaços</li>
 			</ol>
 		</div><!--/.row-->
@@ -52,11 +52,11 @@
 						
 								<div class="form-group">
 									<label>Introudiex el nom de l'enllaç</label>
-									<input type="text" name="titol" class="form-control" placeholder="Nom">
+									<input type="text" name="titol" value="<?php echo set_value('titol'); ?>" class="form-control" placeholder="Nom">
 								</div>
 								<div class="form-group">
 									<label>Introudiex l'enllaç</label>
-									<input type="text" name="url" class="form-control"  placeholder="Enllaç">
+									<input type="text" name="url" value="<?php echo set_value('url'); ?>" class="form-control"  placeholder="Enllaç">
 								</div>
 								<button type="submit" class="btn btn-primary">Acceptar</button>
 							</div>

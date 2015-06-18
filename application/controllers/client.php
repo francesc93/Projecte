@@ -7,6 +7,7 @@ class Client extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->load->library('session');
 		$this->load->database();
+		$this->load->library('email');
 	}
 	function index(){
 		$this->load->model('client_model');		
@@ -77,9 +78,13 @@ class Client extends CI_Controller {
 	function registra_usuari(){
 				$this->form_validation->set_rules('nom','nom','required');
 				$this->form_validation->set_rules('cognoms','cognoms','required');
+				$this->form_validation->set_rules('estat','estat','required');
+				$this->form_validation->set_rules('sexe','sexe','required');
 				$this->form_validation->set_rules("email","email","trim|required|valid_email|xss_clean|is_unique[USUARIS_INTERNS.email]");
 				$this->form_validation->set_rules('data_naixement','data de naixement','required');
 		        $this->form_validation->set_rules('contrasenya', 'contrasenya', 'required');
+		        $this->form_validation->set_message('valid_email', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El email no es correcte</div>');
+
 		       	$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
 
 
@@ -104,6 +109,7 @@ class Client extends CI_Controller {
 				   if (!$this->upload->do_upload('foto')) {
 					$foto = NULL;
 					}
+
 				   $foto = base_url()."actualitat/".$this->upload->file_name;	
 				   $contrasenya = md5($this->input->post('contrasenya')); 
 				   $nom = $this->input->post('nom'); 
@@ -121,8 +127,40 @@ class Client extends CI_Controller {
 						$categoria='Master';
 					}
 				   $this->client_model->registra_usuari($contrasenya, $nom, $cognoms, $foto, $data_naixement, $rol, $estat, $categoria, $sexe, $email);
-				   $this->session->set_flashdata('correcto', '<div class="alert alert-success alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button><span class="glyphicon glyphicon-ok">&nbsp;</span><strong>Registre inserit correctament</strong></div>');			
-				   $this->session->flashdata('correcto', 'Usuario registrado correctamente!');				  
+				   $this->session->set_flashdata('correcto', '<div class="alert alert-success alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button><span class="glyphicon glyphicon-ok">&nbsp;</span><strong>Registre inserit correctament </strong></div>');			
+				   
+				   require('/usr/share/script/PHPMailer-master/class.phpmailer.php');
+					require('/usr/share/script/PHPMailer-master/class.smtp.php');
+		        	$mail = new PHPMailer();
+					$mail->IsSMTP();                                      // Set mailer to use SMTP
+					$mail->Host = 'smtp.mandrillapp.com';                 // Specify main and backup server
+					$mail->Port = 587;                                    // Set the SMTP port
+					$mail->SMTPAuth = true;                               // Enable SMTP authentication
+					$mail->Username = 'ffores93@gmail.com';               // SMTP username 
+					$mail->Password = 'FkUFGLdyRD7JCWlJ3xMRNw';           // SMTP password
+					$mail->SMTPSecure = 'tls';      
+					$mail->CharSet = 'UTF-8';                      // Enable encryption, 'ssl' also accepted
+					$body = "Registre inserit correctament l'administrador comprovara el registre i et validara, un cop validat ja podràs iniciar sessió com a usuari intern!! salutacions de part del Club de natació de Tortosa ";
+
+		        	$mail->From = 'ffores93@gmail.com';
+
+					$mail->FromName = "Club N.Tortosa";
+
+					$mail->Subject = "Benvingut  al Club de natació Tortosa!!";
+					$mail->AltBody = "prova"; 
+
+					$mail->MsgHTML($body);
+
+					$mail->AddAddress($this->input->post('email'));
+					
+					if(!$mail->Send()){
+						$this->session->set_flashdata('envio', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El email no es valit</div>');
+
+			        }else{
+			           	$this->session->set_flashdata('envio', '<div class="alert alert-success alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button><span class="glyphicon glyphicon-ok">&nbsp;</span><strong>Email enviat correctament</strong></div>');	            	
+
+			        }	
+					    	         			  
 				   redirect('client/registrat','refresh');
 				   }
 	}
@@ -341,46 +379,42 @@ class Client extends CI_Controller {
 		        }
 		        else
 		        { 	
-		        		$configGmail = array(
-							'protocol' => 'smtp',
-							'smtp_host' => 'ssl://smtp.gmail.com',
-							'smtp_port' => 465,
-							'smtp_user' => 'ffores93@gmail.com', 
-							'smtp_pass' => '47476183c93',
-							'mailtype' => 'html',
-							'charset' => 'utf-8',
-							'newline' => "\r\n"
-						); 
-		        	$this->email->initialize($configGmail);
- 
+		        	require('/usr/share/script/PHPMailer-master/class.phpmailer.php');
+					require('/usr/share/script/PHPMailer-master/class.smtp.php');
+		        	$mail = new PHPMailer();
+					$mail->IsSMTP();                                      // Set mailer to use SMTP
+					$mail->Host = 'smtp.mandrillapp.com';                 // Specify main and backup server
+					$mail->Port = 587;                                    // Set the SMTP port
+					$mail->SMTPAuth = true;                               // Enable SMTP authentication
+					$mail->Username = 'ffores93@gmail.com';               // SMTP username 
+					$mail->Password = 'FkUFGLdyRD7JCWlJ3xMRNw';           // SMTP password
+					$mail->SMTPSecure = 'tls';      
+					$mail->CharSet = 'UTF-8';                      // Enable encryption, 'ssl' also accepted
+					$body = $this->input->post('missatge');
 
-					$this->email->from($this->input->post('email'));
-					$this->email->to('ffores93@gmail.com', 'Admin'); //email de club de natacio
-					$this->email->subject($this->input->post('asumpte'));
-					$this->email->message($this->input->post('missatge'));
+		        	$mail->From = $this->input->post('email');
+
+					$mail->FromName = "Club N.Tortosa";
+
+					$mail->Subject = $this->input->post('asumpte');
+					$mail->AltBody = "prova"; 
+
+					$mail->MsgHTML($body);
+
+					$mail->AddAddress('ffores93@gmail.com');
 					
-					$this->email->send();
-					if($this->email->send()){
-		            	$this->session->set_flashdata('envio', '<div class="alert alert-success alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button><span class="glyphicon glyphicon-ok">&nbsp;</span><strong>Email enviat correctament</strong></div>');
-		            	
+					if(!$mail->Send()){
+						$this->session->set_flashdata('envio', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El email no es valit</div>');
+
 			        }else{
-			            $this->session->set_flashdata('envio', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El email no es valit</div>');
+			           	$this->session->set_flashdata('envio', '<div class="alert alert-success alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button><span class="glyphicon glyphicon-ok">&nbsp;</span><strong>Email enviat correctament</strong></div>');	            	
+
 			        }	         
 			        
-					
 		        	redirect("client/contacta");
 				}			
 	      
 	   }   
-	 /* public function envia(){
-	   	$this->load->library('email');
-					$this->email->from('ffores93@gmail.com');
-					$this->email->to('ffores93@gmail.com');
-					$this->email->subject('eeeeeeeeeeeeeoooooooooooooeeeeeeeeeeeeeeeee');
-					$this->email->message('missateeeeeeeeeeeeeeege');
-					$this->email->send();
-					echo $this->email->print_debugger();
-	      
-	   }   */
+
 		
 }

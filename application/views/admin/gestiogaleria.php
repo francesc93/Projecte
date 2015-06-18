@@ -30,7 +30,7 @@
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
 		<div class="row">
 			<ol class="breadcrumb">
-				<li><a href="#"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="<?php echo base_url('/admin/index') ?>"><span class="glyphicon glyphicon-home"></span></a></li>
 				<li class="active">Galeria</li>
 			</ol>
 		</div><!--/.row-->
@@ -82,6 +82,7 @@
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
+						    	<th >ID</th>
 						        <th >Galeria</th>
 						         <th >URL</th>
 						        <th >Accions</th>
@@ -90,13 +91,14 @@
 						    <tbody>
 						    	 <?php foreach($this->_ci_cached_vars as $index => $llistardocument){ ?>
             					<tr>
+            						<td><?php echo $llistardocument['ID']; ?></td>
             						<td><?php echo $llistardocument['NOM']; ?></td>
                 					<td><?php echo $llistardocument['URL']; ?></td>
 					                 <!--<td><img src="<?php //echo $llistardocument['foto']; ?>"></td>--> <!--Si volem mostra imatge utilitzarem aquest-->
 					                
 					                <td>
 					                    
-					                     <a  href="<?=base_url()?>index.php/admin/eliminar_foto/<?=$llistardocument['NOM']?>">
+					                     <a  href="<?=base_url()?>index.php/admin/eliminar_foto/<?=$llistardocument['ID']?>">
 					                        <button type="button" class="btn btn-danger btn-sm eliminar">
 					                            <span class="glyphicon glyphicon-remove"></span> 
 					                        </button>

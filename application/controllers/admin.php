@@ -84,7 +84,6 @@ class Admin extends CI_Controller {
 			$this->load->model('actualitat_model');
 			$id = $this->uri->segment(3);
 			$this->actualitat_model->eliminar_foto($id);			
-			system('rm -rf ./galeria/'.$id.'/');
 			redirect('admin/galeria');
 	}
 	public function usuaris(){	
@@ -209,8 +208,7 @@ class Admin extends CI_Controller {
 				   $this->load->model('actualitat_model');
 				   $this->actualitat_model->inserta_calendari($competicio, $data_hora_1, $data_hora_2, $estat, $categoria, $lloc);
 				   redirect('admin/calendari');
-				    }
-	        	  
+				    }	        	  
 	}
 	public function insertar_document(){	
 					
@@ -350,6 +348,10 @@ class Admin extends CI_Controller {
 	
 	public function insertar_usuari(){	
 		        $this->form_validation->set_rules('nom','nom','required');
+		        $this->form_validation->set_rules('cognoms','cognoms','required');
+		        $this->form_validation->set_rules('estat','estat','required');
+		        $this->form_validation->set_rules('sexe','sexe','required');
+		        $this->form_validation->set_rules('rol','rol','required');
 		        $this->form_validation->set_rules('contrasenya', 'contrasenya', 'required');
 		        $this->form_validation->set_rules("email","email","required|valid_email|xss_clean|is_unique[USUARIS_INTERNS.email]");
 		        $this->form_validation->set_rules('data_naixement', 'Data naixement', 'required');		        
@@ -380,10 +382,11 @@ class Admin extends CI_Controller {
 				   $this->upload->initialize($config_file);
 				   if (!$this->upload->do_upload('foto')) {
 						$foto = NULL;	
-				   $contrasenya = md5($this->input->post('contrasenya'));
-				   $email = $this->input->post('email');
+				   
 				   $nom = $this->input->post('nom'); 
 				   $cognoms = $this->input->post('cognoms');
+				   $contrasenya = md5($this->input->post('contrasenya'));
+				   $email = $this->input->post('email');
 				   $data_naixement = $this->input->post('data_naixement');  
 				   $rol = $this->input->post('rol'); 
 				   $estat = $this->input->post('estat'); 

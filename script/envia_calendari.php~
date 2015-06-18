@@ -1,0 +1,66 @@
+<?php
+include 'conexio.php';
+require('/opt/lampp/htdocs/script/PHPMailer-master/class.phpmailer.php');
+require('/opt/lampp/htdocs/script/PHPMailer-master/class.smtp.php');
+
+//Aquest script s'executa cada dia comprovan si ala setmana segunt hi han competicons dins la taual de calendari
+// si hi han alguna comptecio s'envia un email a tots el usuaris registrats depenent de la seva categoria 
+$calendari= mysql_query("SELECT a.ID_USUARI, a.EMAIL, b.ID_COMPETICIO, b.COMPETICIO, b.DATA_HORA_1, b.DATA_HORA_2 ,a.CATEGORIA FROM USUARIS_INTERNS a, DETALL_CALENDARI b where a.CATEGORIA=b.CATEGORIA "); 
+$data_avui = date("Y-m-d H:i:s"); 	 //obtenim la data d'avui 
+$semana = strtotime ( '+7 day' , strtotime ( $data_avui ) ) ; //a data d'avui li sumem una setmana 
+$semana = date("Y-m-d" , $semana ); //li donem el correcte format a la data semana seguent
+
+if (mysql_fetch_array($calendari)==false) {  				// si la consulta retorna null es adir no hi han competicion l'script no s'executa
+	echo "no hi han competicions";		
+}else{	 								//si la consulta no retorna NULL es a dir, hi han competicions
+	while ($registre = mysql_fetch_array($calendari)) {		//recorrem totes les competicions
+		$data = strtotime($registre["DATA_HORA_1"]);		//per comprara les dates utilitzem aquesta funcio per tranformar la data 
+		$data_dia = date("Y-m-d" , $data );												
+		$data_hora = date("H:i:s" , $data );	
+		$data2 = strtotime($registre["DATA_HORA_1"]);		//per comprara les dates utilitzem aquesta funcio per tranformar la data 
+		$data_dia2 = date("Y-m-d" , $data );												
+		$data_hora2 = date("H:i:s" , $data );	
+		
+		if($semana==$data_dia){
+		$mail = new PHPMailer();
+
+		$body = "Tens una competició la pròxima setmana,".$registre["COMPETICIO"]." el dia ". $data_dia." ales ".$data_hora." i finalitza el ". $data_dia2." ales ".$data_hora2.", salutacions de part del club de natació Tortosa!!";
+
+		$mail->IsSMTP(); 
+
+		// la dirección del servidor, p. ej.: smtp.servidor.com
+		$mail->Host = "smtp.gmail.com";
+
+		// dirección remitente, p. ej.: no-responder@miempresa.com
+		$mail->From = $registre["EMAIL"];
+
+		// nombre remitente, p. ej.: "Servicio de envío automático"
+		$mail->FromName = "Club N.Tortosa";
+
+		// asunto y cuerpo alternativo del mensaje
+		$mail->Subject = $registre["COMPETICIO"];
+		$mail->AltBody = "prova"; 
+
+		// si el cuerpo del mensaje es HTML
+		$mail->MsgHTML($body);
+
+		// podemos hacer varios AddAdress
+		$mail->AddAddress("ffores93@gmail.com", "Nombre_destino");
+
+		// si el SMTP necesita autenticación
+		$mail->SMTPAuth = true;
+
+		// credenciales usuario
+		$mail->Username = "ffores93@gmail.com";
+		$mail->Password = "FkUFGLdyRD7JCWlJ3xMRNw"; 
+
+		if(!$mail->Send()) {
+			echo "Error al enviar: " . $mail->ErrorInfo;
+		} else {
+			echo "Enviat!!";
+		}
+
+			}
+}}
+
+?>
