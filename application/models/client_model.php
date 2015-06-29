@@ -53,7 +53,7 @@ class client_model extends CI_Model  {
   }
     public function usuario_por_nombre_contrasena($email, $contrasenya){
     $this->db->select('ID_USUARI,EMAIL, NOM, CONTRASENYA,EMAIL, COGNOMS,FOTO, DATA_NAIXEMENT, ROL, ESTAT, CATEGORIA');
-    $query = $this->db->from('USUARIS_INTERNS');
+    $query = $this->db->from('USUARIS');
     $where = array('EMAIL ' => $email , 'CONTRASENYA ' => $contrasenya);
     $this->db->where($where);
     $consulta = $this->db->get();

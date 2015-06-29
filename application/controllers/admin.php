@@ -40,6 +40,29 @@ class Admin extends CI_Controller {
 			redirect('client/login');
 		}				      
 	}
+
+	public function estat(){	
+		//if($this->loguejat() && $this->rol()){				
+			$this->load->model('actualitat_model');		
+			$data = array();
+	       	$data['estats'] = $this->actualitat_model->getestats();
+	        $this->load->view('admin/gestioestats', $data);    
+		//}else{
+		//	redirect('client/login');
+		//}				      
+	}
+
+	public function categoria(){	
+		//if($this->loguejat() && $this->rol()){				
+			$this->load->model('actualitat_model');		
+			$data = array();
+	       	$data['categories'] = $this->actualitat_model->getcategoria();
+	       	$data['estats'] = $this->actualitat_model->getestats();
+	        $this->load->view('admin/gestiocategories', $data);    
+		//}else{
+		//	redirect('client/login');
+		//}				      
+	}
 	public function calendari(){	
 		if($this->loguejat() && $this->rol()){				
 			$this->load->model('actualitat_model');		
@@ -47,7 +70,10 @@ class Admin extends CI_Controller {
 	    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
 	        	$this->load->view('admin/gestiocalendari', $data);	         
 		}else{
-			redirect('client/login');
+			$this->load->model('actualitat_model');		
+			$data = array();
+	    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
+	        	$this->load->view('admin/gestiocalendari', $data);	      
 		} 			           
 	}
 	public function documents(){	
@@ -256,6 +282,53 @@ class Admin extends CI_Controller {
 	        		
 	        	}
 	}
+
+	public function insertar_estat(){	
+				$this->form_validation->set_rules('estat','estat','required');
+				$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
+		       if ($this->form_validation->run() == FALSE)
+		        {		        	
+		            $this->load->model('actualitat_model');		
+			   		$data = $this->actualitat_model->getestats();
+			    	$this->load->view('admin/gestioestats', $data);
+		        }else{		
+				   
+				   $estat = $this->input->post('estat');	  
+				   $this->load->model('actualitat_model');
+				   $this->actualitat_model->insertar_estats($estat);
+				   redirect('admin/estat');
+	        		
+	        	}
+	}
+
+	public function insertar_categoria(){	
+				$this->form_validation->set_rules('prefix','prefix','required');
+				$this->form_validation->set_rules('nom','nom','required');
+				$this->form_validation->set_rules('estat','estat','required');
+				$this->form_validation->set_rules('datai','datai','required');
+				$this->form_validation->set_rules('dataf','dataf','required');
+				$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
+		       if ($this->form_validation->run() == FALSE)
+		        {		        	
+		            $this->load->model('actualitat_model');		
+			   		$data = array();
+			       	$data['categories'] = $this->actualitat_model->getcategoria();
+			       	$data['estats'] = $this->actualitat_model->getestats();
+			        $this->load->view('admin/gestiocategories', $data);    
+		        }else{		
+				   
+				   $nom = $this->input->post('nom');	
+				   $prefix = $this->input->post('prefix');	
+				   $datai = $this->input->post('datai');	
+				   $dataf = $this->input->post('dataf');	
+				   $estat = $this->input->post('estat');  
+				   $this->load->model('actualitat_model');
+				   $this->actualitat_model->insertar_categories($nom, $prefix, $datai, $dataf, $estat);
+				   redirect('admin/categoria');
+	        		
+	        	}
+	}
+
 	public function insert_galeria (){
 			$this->form_validation->set_rules('titol','Titol','required');
 			$this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');

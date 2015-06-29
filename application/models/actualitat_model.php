@@ -43,9 +43,22 @@ class actualitat_model extends CI_Model {
     $query = $this->db->get('URLS');
     return $query->result_array();
   }
+
+     public function getestats() {
+    $this->db->select('ID_ESTAT, ESTAT');
+    $query = $this->db->get('ESTATS');
+    return $query->result_array();
+  }
+
+  public function getcategoria() {
+    $this->db->select('ID_CATEGORIA, CATEGORIA');
+    $query = $this->db->get('CATEGORIES');
+    return $query->result_array();
+  }
+
 public function getUsuaris() {
     $this->db->select('ID_USUARI, NOM, EMAIL, COGNOMS, FOTO, DATA_NAIXEMENT, ROL, ESTAT, CATEGORIA, SEXE');
-    $query = $this->db->get('USUARIS_INTERNS');
+    $query = $this->db->get('USUARIS');
     return $query->result_array();
   }
   public function getUsuaris_validar() {
@@ -58,7 +71,7 @@ public function getUsuaris() {
     $this->db->where('ID_USUARI', $id);    
     $consulta = $this->db->get('VALIDAR_USUARIS');
     $resultado = $consulta->row();    
-    $this->db->insert('USUARIS_INTERNS', $resultado);
+    $this->db->insert('USUARIS', $resultado);
     $this->db->where('ID_USUARI', $id);
     $this->db->delete('VALIDAR_USUARIS');
   }
@@ -107,6 +120,28 @@ public function getUsuaris() {
     $this->db->insert('DOCUMENTS', $data);
   }
 
+
+  public function insertar_estats($estat) {
+    $data = array(
+      'estat' => $estat
+    );
+ 
+    $this->db->insert('ESTATS', $data);
+  }
+
+    public function insertar_categories($nom, $prefix, $datai, $dataf, $estat){
+    $data = array(
+      'categoria' => $nom,
+      'prefix' => $prefix,
+      'data_inici' => $datai,
+      'data_fi' => $dataf,
+      'id_estat' => $estat
+    );
+ 
+    $this->db->insert('CATEGORIES', $data);
+  }
+
+
   public function insertaUsuari($contrasenya, $nom, $cognoms, $foto, $data_naixement, $rol, $estat, $categoria, $sexe, $email) {
     $data = array(
       'contrasenya' => $contrasenya,
@@ -121,7 +156,7 @@ public function getUsuaris() {
       'email' => $email,
     );
 
-    $this->db->insert('USUARIS_INTERNS', $data);
+    $this->db->insert('USUARIS', $data);
   }
 
   public function inserta_calendari($competicio, $data_hora_1, $data_hora_2, $estat, $categoria,  $lloc, $resultats){
@@ -153,7 +188,7 @@ public function getUsuaris() {
   }
   public  function eliminar_usuari($id){
       $this->db->where('ID_USUARI',$id);
-      return $this->db->delete('USUARIS_INTERNS');
+      return $this->db->delete('USUARIS');
     }
      public  function eliminar_calendari($id){
       $this->db->where('ID_COMPETICIO',$id);
@@ -187,7 +222,7 @@ public function getUsuaris() {
 
   public function getUsuario($id) {   
     $this->db->where('ID_USUARI', $id);
-    $query = $this->db->from('USUARIS_INTERNS');
+    $query = $this->db->from('USUARIS');
     $this->db->where('ID_USUARI', $id);
     $query = $this->db->get(); 
     return $query;
@@ -206,7 +241,7 @@ public function getUsuaris() {
         'categoria' => $categoria
         );
         $this->db->where('ID_USUARI', $id);
-        return $this->db->update('USUARIS_INTERNS ', $data);
+        return $this->db->update('USUARIS ', $data);
     }
     function update_actualitat($id, $titol, $comentari, $foto){
          $data = array(

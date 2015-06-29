@@ -57,20 +57,17 @@
 					                <input class="form-control" name='data_naixement'  type="text" placeholder="Data de naixement"  id="example1" value="<?php echo set_value('data_naixement'); ?>">
 					            </div>
 								</div>
-								<div class="col-md-6">								
-																	
+								<div class="col-md-6">																
 									<div class="form-group">
 										<label>Contrasenya</label>
 										<input type="password" class="form-control" name='contrasenya' value="<?php echo set_value('contrasenya'); ?>">
-									</div>	
-										
-									
+									</div>										
 									<div class="form-group">
 										<label>Estat</label>
 										<select class="form-control" name="estat" id="estat">
-											<option>Escolar</option>
-											<option>Federat</option>
-											<option>Master</option>
+											 <?php foreach($estats as $index => $llistaractualitat){ ?>
+										<option value="<?php echo $llistaractualitat['ID_ESTAT']; ?>" > <?php echo $llistaractualitat['ESTAT']; ?></option>
+										<?php }?>
 										</select>
 									</div>
 									<div class="form-group">

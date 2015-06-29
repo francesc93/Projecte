@@ -73,7 +73,11 @@ class Client extends CI_Controller {
 			$this->load->view('client/perfil'); // vista perfil
 	}
 	function registrat(){
-			$this->load->view('client/registrat'); // vista perfil
+		$this->load->model('actualitat_model');		
+			$data = array();
+	       	$data['categories'] = $this->actualitat_model->getcategoria();
+	       	$data['estats'] = $this->actualitat_model->getestats();
+			$this->load->view('client/registrat', $data);  
 	}
 	function registra_usuari(){
 				$this->form_validation->set_rules('nom','nom','required');
@@ -292,8 +296,9 @@ class Client extends CI_Controller {
 							
 		  function username_check($str)
     {
-    	$this->db->select('ID_USUARI,EMAIL, NOM, CONTRASENYA,EMAIL, COGNOMS,FOTO, DATA_NAIXEMENT, ROL, ESTAT, CATEGORIA');
-	    $query = $this->db->from('USUARIS_INTERNS');
+    	$this->db->select('a.ID_USUARI,a.EMAIL,a.NOM,a.CONTRASENYA,a.EMAIL,a.COGNOMS,a.FOTO,a.DATA_NAIXEMENT,a.ROL, b.ESTAT, c.CATEGORIA');
+	    $query = $this->db->from('USUARIS as a, ESTATS as b, CATEGORIES as c');
+	   
 	    $where = array('EMAIL ' => $str);
 	    $this->db->where($where);
 	    $consulta = $this->db->get();
