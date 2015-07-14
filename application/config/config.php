@@ -83,7 +83,7 @@ $config['language']	= 'english';
 |
 */
 $config['charset'] = 'UTF-8';
-
+$db['default']['dbcollat'] = 'utf8_general_ci';
 /*
 |--------------------------------------------------------------------------
 | Enable/Disable System Hooks

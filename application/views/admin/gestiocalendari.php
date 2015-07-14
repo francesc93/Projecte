@@ -16,6 +16,20 @@
 <script src="js/html5shiv.js"></script>
 <script src="js/respond.min.js"></script>
 <![endif]-->
+<style type="text/css">
+	.state-icon {
+    left: -5px;
+}
+.list-group-item-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+}
+
+/* DEMO ONLY - REMOVES UNWANTED MARGIN */
+.well .list-group {
+    margin-bottom: 0px;
+}
+</style>
 </head>
 <body>
 	<?php include 'header.php';?>
@@ -62,35 +76,33 @@
 									<label>Dia i Hora fi</label>
 									 <input type="text" class="form-control" id="datetimepicker2" name="data_hora_2" value="<?php echo set_value('data_hora_2'); ?>" placeholder="Dia i Hora">
 								</div>
-							</div>
-							<div class="col-lg-6">
-								<div class="form-group">
-									<label>Estat</label>
-									<select class="form-control" name="estat" id="estat">
-										<option>Escolar</option>
-										<option>Federat</option>
-										<option>Master</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label>CATEGORIA</label>
-									<select class="form-control" name="categoria" id="categoria">
-										<option>PB</option>
-										<option>B</option>
-										<option>ALE</option>
-										<option>INF</option>
-										<option>CAD</option>
-										<option>JUV</option>
-										<option>ABJ</option>
-										<option>ABS</option>
-										<option>MASTER</option>
-									</select>
-									
-								</div>								
 								<div class="form-group">
 									<label>Lloc</label>
 									<input class="form-control" placeholder="Introdueix el text" name='lloc' value="<?php echo set_value('lloc'); ?>">
 								</div>	
+							</div>
+							<div class="col-lg-6">
+								<div class="form-group">	
+									<label>Estats</label>
+									<select class="form-control" name="estat" id="estat">
+									 <?php foreach($estats as $index => $llistaractualitat){ ?>
+										<option  value="<?php echo $llistaractualitat['ID_ESTAT']; ?> "> <?php echo $llistaractualitat['ESTAT']; ?></option>
+										<?php }?>
+									</select>
+								</div>
+								<div class="form-group">	
+									<label>Categories</label>
+									<div class="well" style="max-height: 200px;overflow: auto;">
+						        		<ul class="list-group checked-list-box">
+						        		<?php foreach($categories as $index => $llistaractualitat){ ?>
+										<li class="list-group-item">
+						                <input name="categoria[]" type="checkbox" value="<?php echo $llistaractualitat['ID_CATEGORIA']; ?>" /><?php echo $llistaractualitat['CATEGORIA']; ?>
+						                </li>											
+						                <?php }?>						                  					                 
+						                </ul>
+						            </div>
+								</div>				
+								
 															
 							</div>							
 								<div align="center">
@@ -232,7 +244,73 @@
       document.getElementById("categoria").value = "<?php echo set_value('categoria'); ?>";
 
 	</script>
+	<script type="text/javascript">
+$(function () {
+    $('.list-group.checked-list-box .list-group-item').each(function () {
+        
+        
+        $widget.css('cursor', 'pointer')
+        $widget.append($checkbox);
 
+        // Event Handlers
+        $widget.on('click', function () {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+          
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $widget.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $widget.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$widget.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $widget.addClass(style + color + ' active');
+            } else {
+                $widget.removeClass(style + color + ' active');
+            }
+        }
+
+        // Initialization
+        function init() {
+            
+            if ($widget.data('checked') == true) {
+                $checkbox.prop('checked', !$checkbox.is(':checked'));
+            }
+            
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($widget.find('.state-icon').length == 0) {
+                $widget.prepend('<span class="state-icon ' + settings[$widget.data('state')].icon + '"></span>');
+            }
+        }
+        init();
+    });
+    
+    $('#get-checked-data').on('click', function(event) {
+        event.preventDefault(); 
+        var checkedItems = {}, counter = 0;
+        $("#check-list-box li.active").each(function(idx, li) {
+            checkedItems[counter] = $(li).text();
+            counter++;
+        });
+        $('#display-json').html(JSON.stringify(checkedItems, null, '\t'));
+    });
+});
+	</script>
 
 </body>
 

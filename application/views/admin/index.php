@@ -60,7 +60,7 @@
 							<em class="glyphicon glyphicon-stats glyphicon-l"></em>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large"><?php echo $this->db->count_all_results('DETALL_CALENDARI');?></div>
+							<div class="large"><?php echo $this->db->count_all_results('COMPETICIONS');?></div>
 							<div class="text-muted">Competicions</div>
 						</div>
 					</div>
@@ -73,7 +73,7 @@
 							<em class="glyphicon glyphicon-user glyphicon-l"></em>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large"><?php echo $this->db->count_all_results('USUARIS_INTERNS');?></div>
+							<div class="large"><?php echo $this->db->count_all_results('USUARIS');?></div>
 							<div class="text-muted">Usuaris interns</div>
 						</div>
 					</div>
@@ -86,7 +86,7 @@
 							<em class="glyphicon glyphicon-user glyphicon-l"></em>
 						</div>
 						<div class="col-sm-9 col-lg-7 widget-right">
-							<div class="large"><?php echo $this->db->count_all_results('VALIDAR_USUARIS');?></div>
+							<div class="large"><?php echo $this->db->count_all_results('USUARIS');?></div>
 							<div class="text-muted">Validar Usuaris</div>
 						</div>
 					</div>

@@ -41,37 +41,41 @@ class Admin extends CI_Controller {
 		}				      
 	}
 
-	public function estat(){	
-		//if($this->loguejat() && $this->rol()){				
+	public function estats(){	
+		if($this->loguejat() && $this->rol()){				
 			$this->load->model('actualitat_model');		
 			$data = array();
 	       	$data['estats'] = $this->actualitat_model->getestats();
 	        $this->load->view('admin/gestioestats', $data);    
-		//}else{
-		//	redirect('client/login');
-		//}				      
+		}else{
+			redirect('client/login');
+		}				      
 	}
 
-	public function categoria(){	
-		//if($this->loguejat() && $this->rol()){				
+	public function categories(){	
+		if($this->loguejat() && $this->rol()){				
 			$this->load->model('actualitat_model');		
 			$data = array();
 	       	$data['categories'] = $this->actualitat_model->getcategoria();
 	       	$data['estats'] = $this->actualitat_model->getestats();
 	        $this->load->view('admin/gestiocategories', $data);    
-		//}else{
-		//	redirect('client/login');
-		//}				      
+		}else{
+			redirect('client/login');
+		}				      
 	}
 	public function calendari(){	
 		if($this->loguejat() && $this->rol()){				
 			$this->load->model('actualitat_model');		
 			$data = array();
-	    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
+	    		$data['calendari'] = $this->actualitat_model->get_calendari();			
+	    		 $data['categories'] = $this->actualitat_model->getcategoria();
+	       		$data['estats'] = $this->actualitat_model->getestats(); 
 	        	$this->load->view('admin/gestiocalendari', $data);	         
 		}else{
 			$this->load->model('actualitat_model');		
 			$data = array();
+			 $data['categories'] = $this->actualitat_model->getcategoria();
+	       		$data['estats'] = $this->actualitat_model->getestats();
 	    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
 	        	$this->load->view('admin/gestiocalendari', $data);	      
 		} 			           
@@ -106,6 +110,16 @@ class Admin extends CI_Controller {
 		} 							
 	          
 	}	
+	public function historial(){
+		if($this->loguejat() && $this->rol()){			
+			$this->load->model('actualitat_model');	
+			$data = array();
+			$data['actualitat'] = $this->actualitat_model->getHistActualitat();
+			$this->load->view('admin/gestiohistorial', $data); 
+		}else{
+			redirect('client/login');
+		}
+	}
 	public function eliminar_foto() {
 			$this->load->model('actualitat_model');
 			$id = $this->uri->segment(3);
@@ -118,6 +132,8 @@ class Admin extends CI_Controller {
 				$data = array();	
 			    $data['usuaris'] = $this->actualitat_model->getUsuaris();
 			    $data['validar_usuari'] = $this->actualitat_model->getUsuaris_validar();
+			    $data['categories'] = $this->actualitat_model->getcategoria();
+	       		$data['estats'] = $this->actualitat_model->getestats();
 			    $this->load->view('admin/gestiousuaris', $data);
 		}else{
 			redirect('client/login');
@@ -153,6 +169,7 @@ class Admin extends CI_Controller {
 		    {
 		        $titol = $this->input->post('titol');
 				$comentari = $this->input->post('comentari');
+				$usuari = $this->session->userdata('ID_USUARI');
 				$config_file = array (
 				'upload_path' => './actualitat/',
 				'allowed_types' => 'png|jpg|jpeg',
@@ -167,13 +184,13 @@ class Admin extends CI_Controller {
 				if (!$this->upload->do_upload('foto')) {
 					$foto = base_url()."assets/client/img/escut2.png";		  
 					$this->load->model('actualitat_model');
-					$this->actualitat_model->crearActualitat($titol, $comentari, $foto);
+					$this->actualitat_model->crearActualitat($titol, $comentari, $foto, $usuari);
 					redirect('admin/actualitat');
 				}
 				else {
 					$foto = base_url()."actualitat/".$this->upload->file_name;		  
 					$this->load->model('actualitat_model');
-					$this->actualitat_model->crearActualitat($titol, $comentari, $foto);
+					$this->actualitat_model->crearActualitat($titol, $comentari, $foto, $usuari);
 					redirect('admin/actualitat');
 	        	}
 	    }
@@ -219,20 +236,19 @@ class Admin extends CI_Controller {
 		            $data = array();
 		    		$data['calendari'] = $this->actualitat_model->get_calendari();			 
 		        	$this->load->view('admin/gestiocalendari', $data);	
-		        }else{		       
-				   $competicio = $this->input->post('competicio');
+		        }else{	
+		           foreach ($_POST["categoria"] as $key => $value) {
+		           	       	$competicio = $this->input->post('competicio');
 				   $data_hora_1 = $this->input->post('data_hora_1');
 				   $data_hora_2 = $this->input->post('data_hora_2'); 
 				   $estat = $this->input->post('estat'); 
-				   $categoria = $this->input->post('categoria');
+				   
 				   $lloc = $this->input->post('lloc');
-				  
-				   if($estat=='Master'){ 
-						$categoria='MASTER';
-					}
-
+				   $resultats = NULL;
 				   $this->load->model('actualitat_model');
-				   $this->actualitat_model->inserta_calendari($competicio, $data_hora_1, $data_hora_2, $estat, $categoria, $lloc);
+				   $this->actualitat_model->inserta_calendari($competicio, $data_hora_1, $data_hora_2, $estat, $value, $lloc, $resultats);
+		           	       }	       
+				   
 				   redirect('admin/calendari');
 				    }	        	  
 	}
@@ -296,7 +312,7 @@ class Admin extends CI_Controller {
 				   $estat = $this->input->post('estat');	  
 				   $this->load->model('actualitat_model');
 				   $this->actualitat_model->insertar_estats($estat);
-				   redirect('admin/estat');
+				   redirect('admin/estats');
 	        		
 	        	}
 	}
@@ -318,13 +334,14 @@ class Admin extends CI_Controller {
 		        }else{		
 				   
 				   $nom = $this->input->post('nom');	
+				   $sexe = $this->input->post('sexe');	
 				   $prefix = $this->input->post('prefix');	
 				   $datai = $this->input->post('datai');	
 				   $dataf = $this->input->post('dataf');	
 				   $estat = $this->input->post('estat');  
 				   $this->load->model('actualitat_model');
-				   $this->actualitat_model->insertar_categories($nom, $prefix, $datai, $dataf, $estat);
-				   redirect('admin/categoria');
+				   $this->actualitat_model->insertar_categories($nom, $sexe, $prefix, $datai, $dataf, $estat);
+				   redirect('admin/categories');
 	        		
 	        	}
 	}
@@ -426,7 +443,7 @@ class Admin extends CI_Controller {
 		        $this->form_validation->set_rules('sexe','sexe','required');
 		        $this->form_validation->set_rules('rol','rol','required');
 		        $this->form_validation->set_rules('contrasenya', 'contrasenya', 'required');
-		        $this->form_validation->set_rules("email","email","required|valid_email|xss_clean|is_unique[USUARIS_INTERNS.email]");
+		        $this->form_validation->set_rules("email","email","required|valid_email|xss_clean|is_unique[USUARIS.email]");
 		        $this->form_validation->set_rules('data_naixement', 'Data naixement', 'required');		        
 		        $this->form_validation->set_message('required', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El camp %s es obligat</div>');
 		        $this->form_validation->set_message('is_unique', '<div class="alert alert-danger alert-dismissable"> <button type="button" data-dismiss="alert" aria-hidden="true" class="close">&times;</button> <strong>Error!<span class="glyphicons glyphicons-skull"></span></strong> El  %s ja está registrat</div>');
@@ -437,6 +454,8 @@ class Admin extends CI_Controller {
 		            $data = array();	
 				    $data['usuaris'] = $this->actualitat_model->getUsuaris();
 				    $data['validar_usuari'] = $this->actualitat_model->getUsuaris_validar();
+				    $data['categories'] = $this->actualitat_model->getcategoria();
+	       			$data['estats'] = $this->actualitat_model->getestats();
 				    $this->load->view('admin/gestiousuaris', $data);
 		        }
 		        else
@@ -465,13 +484,9 @@ class Admin extends CI_Controller {
 				   $estat = $this->input->post('estat'); 
 				   $sexe = $this->input->post('sexe'); 	
 				   $this->load->model('actualitat_model');
-				   $newDate = date('d-m-Y', strtotime($data_naixement));
-				   $categoria = $this->calcular_categoria($sexe,$this->calcular_edad($newDate),$estat);
-				   if($estat=='MASTER'){ 
-						$categoria='MASTER';
-					}
+				   $categoria = $this->calcular_categoria($sexe,$data_naixement,$estat);				   
 				   $this->actualitat_model->insertaUsuari($contrasenya, $nom, $cognoms, $foto, $data_naixement, $rol, $estat, $categoria, $sexe, $email);
-				   redirect('admin/usuaris');
+					redirect('admin/usuaris');	
 					}
 					else {
 				   $foto = base_url()."actualitat/".$this->upload->file_name;	
@@ -485,13 +500,9 @@ class Admin extends CI_Controller {
 				   $estat = $this->input->post('estat'); 
 				   $sexe = $this->input->post('sexe'); 	
 				   $this->load->model('actualitat_model');
-				   $newDate = date('d-m-Y', strtotime($data_naixement));
-				   $categoria = $this->calcular_categoria($sexe, $this->calcular_edad($newDate), $estat);
-				   if($estat=='MASTER'){ 
-						$categoria='MASTER';
-					}
+				   $categoria = $this->calcular_categoria($sexe,$data_naixement,$estat);				   
 				   $this->actualitat_model->insertaUsuari($contrasenya, $nom, $cognoms, $foto, $data_naixement, $rol, $estat, $categoria, $sexe, $email);
-				   redirect('admin/usuaris');
+	        	   redirect('admin/usuaris');	
 	        	   }		          
 	        	}
 	}
@@ -533,7 +544,9 @@ class Admin extends CI_Controller {
 	}
 	public function get_usuari($id) {
 				$this->load->model('actualitat_model');	              
-				$data = $this->actualitat_model->getUsuario($id)->row();					  			  
+				$data = $this->actualitat_model->getUsuario($id)->row();
+				$data['categories'] = $this->actualitat_model->getcategoria();
+				$data['estats'] = $this->actualitat_model->getestats();					  			  
 				$this->load->view('admin/modificar_usuari', $data);
 	}
 	public function modificar_usuari() {
@@ -644,111 +657,25 @@ class Admin extends CI_Controller {
 			$query = $this->CI->db->limit(1)->get_where($table, array($field => $str));
 			return $query->num_rows() === 0;
 			}
-	   public function calcular_edad($fecha){
-					    $dias = explode("-", $fecha, 3);
-					    $dias = mktime(0,0,0,$dias[1],$dias[0],$dias[2]);
-					    $edad = (int)((time()-$dias)/31556926 );
-					    return $edad;
+	   public function calcular_edad($fechanacimiento){
+					     list($ano,$mes,$dia) = explode("-",$fechanacimiento);
+					    $ano_diferencia  = date("Y") - $ano;
+					    $mes_diferencia = date("m") - $mes;
+					    $dia_diferencia   = date("d") - $dia;
+					    if ($dia_diferencia < 0 || $mes_diferencia < 0)
+					        $ano_diferencia--;
+					    return $ano_diferencia;
 					}
 
 					// Funcio per calcular la categoria tenin en compte el sexe 
-					public function calcular_categoria($sexe,$edad,$estat) {
-						switch($estat){
-							case 'Escolar':
-								switch ($edad) {
-									case 7:
-									case 8:
-										return 'PB';
-										break;
-									case 9:
-									case 10:
-										return 'B';
-										break;
-									case 11:
-									case 12:
-										return 'ALE';
-										break;
-									case 13:
-									case 14:
-										return 'INF';
-										break;
-									case 15:
-									case 16:
-										return 'JUV';
-										break;
-									default:
-									return 'CAD';
-									break;
-								}
-								break;
-						case 'Federat':
-						switch ($sexe) {
-							case 'Masculí':
-								switch ($edad) {
-									case 8:
-										return 'PB';
-										break;
-									case 9:
-									case 10:
-									case 11:
-										return 'B';
-										break;
-									case 12:
-									case 13:
-										return 'ALE';
-										break;
-									case 14:
-									case 15:
-									case 16:
-										return 'INF';
-										break;
-									case 17:
-									case 18:
-										return 'JUV';
-										break;
-									case 19:
-									case 20:
-										return 'ABJ';
-										break;
-									default:
-									return 'ABS'; 
-									break;
-
-								}
-								break;
-							case 'Femení':
-								switch ($edad) {
-									case 8:
-										return 'PB';
-										break;
-									case 9:
-									case 10:
-										return 'B';
-										break;
-									case 11:
-									case 12:
-										return 'ALE';
-										break;
-									case 13:
-									case 14:
-										return 'INF';
-										break;
-									case 15:
-									case 16:
-										return 'JUV';
-										break;
-									case 17:
-									case 18:
-										return 'ABJ';
-										break;
-									default:
-										return 'ABS';
-
-								}
-						}
-						break;
-					}
-
+					public function calcular_categoria($sexe,$data_naixement,$estat) {
+					/*$this->db->select('a.ID_CATEGORIA,  b.ID_ESTAT, a.Categoria, b.ESTAT, a.SEXE, a.DATA_INICI, a.DATA_FI');*/
+					$this->db->select('a.ID_CATEGORIA');
+				    $this->db->from('CATEGORIES as a, ESTATS as b ');
+				    $this->db->where('a.ID_ESTAT = b.ID_ESTAT and b.ID_ESTAT = "'.$estat.'" and ( a.DATA_INICI <= "'.$data_naixement.'" and a.DATA_FI >= '.$data_naixement.' ) and ( a.SEXE = "'.$sexe.'" or a.SEXE is NULL)');
+				    $query = $this->db->get(); 
+				    $result = $query->result_array();				    
+				    return $result[0]['ID_CATEGORIA'];
 					}
 
 					public function calcular_temporada($anys) {

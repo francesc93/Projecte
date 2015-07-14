@@ -61,7 +61,7 @@
 								        <!-- Hay que prestar atención a esto, el nombre de este campo debe siempre terminar en []
 								        como un vector, y ademas debe coincidir con el nombre que se da a los campos nuevos 
 								        en el script -->
-								   <input type="file"  name="archivos[]" /><br />
+								   <input type="file" name="archivos[]" /><br />
 								   </div></dd>
 								   <dt><a href="#" onClick="addCampo()">Muntar més fotos</a></dt>      
 								   <dd><input class="btn btn-primary" type="submit" value="Enviar" id="envia" name="insert_galeria" /></dd>

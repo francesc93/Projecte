@@ -80,12 +80,12 @@
 										<option <?php if($ROL=='ADMINISTRADOR'){?> selected="true"<?php };?> >ADMINISTRADOR</option>
 									</select>
 								</div>
-								<div class="form-group">
-									<label>Estat</label>
-									<select class="form-control" name="estat" >
-										<option <?php if($ESTAT=='ESCOLAR'){?> selected="true"<?php };?> >Escolar</option>
-										<option <?php if($ESTAT=='FEDERAT'){?> selected="true"<?php };?> >Federat</option>
-										<option <?php if($ESTAT=='MASTER'){?> selected="true"<?php };?> >Master</option>
+								<div class="form-group">	
+									<label>Estats</label>
+									<select class="form-control" name="estat" id="estat">
+									 <?php foreach($estats as $index => $llistaractualitat){ ?>
+										<option  value="<?php echo $llistaractualitat['ID_ESTAT']; ?> "> <?php echo $llistaractualitat['ESTAT']; ?></option>
+										<?php }?>
 									</select>
 								</div>
 								<div class="form-group">
@@ -143,6 +143,11 @@
             
             });
         </script>
+         <script type="text/javascript">
+	document.getElementById("sexe").value = "<?php echo set_value('sexe'); ?>";
+	document.getElementById("rol").value = "<?php echo set_value('rol'); ?>";
+	document.getElementById("estat").value = "<?php echo set_value('estat'); ?>";
+	</script>
 </body>
 
 </html>	
