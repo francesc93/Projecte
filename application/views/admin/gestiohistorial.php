@@ -46,43 +46,31 @@
 <div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Historic usuaris</div>
+					<div class="panel-heading">Historic actualitat</div>
 					<div class="panel-body">
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <th data-field="state">ID_HISTORIC</th>
-						        <th >ID_BLOG</th>
-						        <th >TITOL</th>
+						        <th data-field="state">ID_BLOG</th>
 						        <th >ID_USURI</th>
+						        <th >TITOL</th>						        
 						        <th >NOM</th>
-						        <th >DATA</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
 						        <th >ACCIO REALITZADA</th>
-						        <th >ACCIO</th>
 						    </tr>
 						    </thead>
 						    <tbody>
 						    	 <?php foreach($actualitat as $index => $llistaractualitat){ ?>
             					<tr>
-            						<td><?php echo $llistaractualitat['HIST_ACTUALITAT']; ?></td>
-                					<td><?php echo $llistaractualitat['ID_BLOG']; ?></td>
-                					<td><?php echo $llistaractualitat['TITOL']; ?></td>
+                					<td><?php echo $llistaractualitat['ID_BLOG']; ?></td>                					
 					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
-					                <td><?php echo $llistaractualitat['NOM']; ?></td>
+                					<td><?php echo $llistaractualitat['TITOL']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
+					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
 					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
 					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
-					                <td>
-					                   <a  href="<?=base_url()?>index.php/admin/get_usuari/<?=$llistaractualitat['ID_USUARI']?>">
-					                        <button type="button" class="btn btn-warning btn-sm">
-					                            <span class="glyphicon glyphicon-pencil"></span> 
-					                        </button>
-					                    </a>
-					                   <a onclick="return confirm('Estas segur que vols eliminar el usuari?');" href="<?=base_url()?>index.php/admin/eliminar_usuari/<?=$llistaractualitat['ID_USUARI']?> ">
-					                        <button type="button" class="btn btn-danger btn-sm eliminar">
-					                            <span class="glyphicon glyphicon-remove"></span> 
-					                        </button>
-					                    </a> 
-					                </td>
+					               
             					</tr>
            						 <?php } ?>
 						    </tbody>
@@ -92,54 +80,241 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">Usuauris per validar</div>
+					<div class="panel-heading">Historic Calendari</div>
 					<div class="panel-body">
 						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
 						    <thead>
 						    <tr>
-						        <th data-field="state">id_usuari</th>
-						        <th >Nom</th>
-						        <th >Cognoms</th>
-						        <th >Email</th>
-						        <th >Data de naixement</th>
-						        <th >Rol</th>
-						        <th>Estat</th>
-						        <th>Categoria</th>
-						        <th>Sexe</th>
-						        <th>Accions</th>
+						        <th data-field="state">ID_COMPETICIO</th>
+						        <th >ID_USURI</th>
+						        <th >COMPETICIO</th>						        
+						        <th >NOM_USUARI</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
+						        <th >ACCIO REALITZADA</th>
 						    </tr>
 						    </thead>
 						    <tbody>
-						    	 <?php foreach($validar_usuari as $index => $llistaractualitat){ ?>
+						    	 <?php foreach($calendari as $index => $llistaractualitat){ ?>
             					<tr>
-                					<td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
-					                <td><?php echo $llistaractualitat['NOM']; ?></td>
-					                <td><?php echo $llistaractualitat['COGNOMS']; ?></td>
+                					<td><?php echo $llistaractualitat['ID_COMPETICIO']; ?></td>                					
+					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
+                					<td><?php echo $llistaractualitat['COMPETICIO']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
 					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
-					                <td><?php echo $llistaractualitat['DATA_NAIXEMENT']; ?></td> 
-					                <td><?php echo $llistaractualitat['ROL']; ?></td> 
-					                <td><?php echo $llistaractualitat['ESTAT']; ?></td> 
-					                <td><?php echo $llistaractualitat['CATEGORIA']; ?></td> 
-					                 <td><?php echo $llistaractualitat['SEXE']; ?></td> 
-					                <td>
-					                   <a  href="<?=base_url()?>index.php/admin/validar_usuari/<?=$llistaractualitat['ID_USUARI']?>">
-					                        <button type="button" class="btn btn-success btn-sm">
-					                            <span class="glyphicon glyphicon-ok"></span> 
-					                        </button>
-					                    </a>
-					                   <a onclick="return confirm('Estas segur que vols eliminar el usuari?');" href="<?=base_url()?>index.php/admin/eliminar_validar_usuari/<?=$llistaractualitat['ID_USUARI']?> ">
-					                        <button type="button" class="btn btn-danger btn-sm eliminar">
-					                            <span class="glyphicon glyphicon-remove"></span> 
-					                        </button>
-					                    </a> 
-					                </td>
+					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
+					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
+					                
             					</tr>
            						 <?php } ?>
 						    </tbody>
-					    </table>
+						    </table>
 			</div>
-		</div><!--/.row-->	
-		
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Historic Documents</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						    <thead>
+						    <tr>
+						        <th data-field="state">ID_DOCUMENT</th>
+						        <th >ID_USURI</th>
+						        <th >DOCUMENT</th>						        
+						        <th >NOM_USUARI</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
+						        <th >ACCIO REALITZADA</th>
+						    </tr>
+						    </thead>
+						    <tbody>
+						    	 <?php foreach($documents as $index => $llistaractualitat){ ?>
+            					<tr>
+                					<td><?php echo $llistaractualitat['ID_DOCUMENT']; ?></td>                					
+					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
+                					<td><?php echo $llistaractualitat['DOCUMENT']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
+					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
+					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
+					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
+					                
+            					</tr>
+           						 <?php } ?>
+						    </tbody>
+						    </table>
+			</div>
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Historic Galeries</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						    <thead>
+						    <tr>
+						        <th data-field="state">ID_GALERIA</th>
+						        <th >ID_USURI</th>
+						        <th >GALERIA</th>						        
+						        <th >NOM_USUARI</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
+						        <th >ACCIO REALITZADA</th>
+						    </tr>
+						    </thead>
+						    <tbody>
+						    	 <?php foreach($galeries as $index => $llistaractualitat){ ?>
+            					<tr>
+                					<td><?php echo $llistaractualitat['ID_GALERIA']; ?></td>                					
+					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
+                					<td><?php echo $llistaractualitat['GALERIA']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
+					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
+					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
+					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
+					                
+            					</tr>
+           						 <?php } ?>
+						    </tbody>
+						    </table>
+			</div>
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Historic Usuaris</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						    <thead>
+						    <tr>
+						        <th data-field="state">ID_USURAI_REGISTRAT</th>
+						        <th >ID_USURI</th>
+						        <th >USUARI_REGSITRAT</th>						        
+						        <th >NOM_USUARI</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
+						        <th >ACCIO REALITZADA</th>
+						    </tr>
+						    </thead>
+						    <tbody>
+						    	 <?php foreach($usuaris as $index => $llistaractualitat){ ?>
+            					<tr>
+                					<td><?php echo $llistaractualitat['ID_USURAI_REGISTRAT']; ?></td>                					
+					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
+                					<td><?php echo $llistaractualitat['USUARI_REGSITRAT']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
+					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
+					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
+					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
+					                
+            					</tr>
+           						 <?php } ?>
+						    </tbody>
+						    </table>
+			</div>
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Historic Enllaços</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						    <thead>
+						    <tr>
+						        <th data-field="state">ID_ENLLAS</th>
+						        <th >ID_USURI</th>
+						        <th >TITOL</th>						        
+						        <th >NOM_USUARI</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
+						        <th >ACCIO REALITZADA</th>
+						    </tr>
+						    </thead>
+						    <tbody>
+						    	 <?php foreach($urls as $index => $llistaractualitat){ ?>
+            					<tr>
+                					<td><?php echo $llistaractualitat['ID_ENLLAS']; ?></td>                					
+					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
+                					<td><?php echo $llistaractualitat['TITUL']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
+					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
+					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
+					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
+					                
+            					</tr>
+           						 <?php } ?>
+						    </tbody>
+						    </table>
+			</div>
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Historic Enllaços</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						    <thead>
+						    <tr>
+						        <th data-field="state">ID_ENLLAS</th>
+						        <th >ID_USURI</th>
+						        <th >TITOL</th>						        
+						        <th >NOM_USUARI</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
+						        <th >ACCIO REALITZADA</th>
+						    </tr>
+						    </thead>
+						    <tbody>
+						    	 <?php foreach($estats as $index => $llistaractualitat){ ?>
+            					<tr>
+                					<td><?php echo $llistaractualitat['ID_ESTAT']; ?></td>                					
+					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
+                					<td><?php echo $llistaractualitat['ESTAT']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
+					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
+					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
+					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
+					                
+            					</tr>
+           						 <?php } ?>
+						    </tbody>
+						    </table>
+			</div>
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">Historic Categories</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-search="true" data-select-item-name="toolbar1" data-pagination="true" data-sort-name="name" data-sort-order="desc">
+						    <thead>
+						    <tr>
+						        <th data-field="state">ID_CATEGORIA</th>
+						        <th >ID_USURI</th>
+						        <th >TITOL</th>						        
+						        <th >NOM_USUARI</th>
+						        <th >EMAIL</th>
+						        <th >DATA</th>   						        
+						        <th >ACCIO REALITZADA</th>
+						    </tr>
+						    </thead>
+						    <tbody>
+						    	 <?php foreach($categories as $index => $llistaractualitat){ ?>
+            					<tr>
+                					<td><?php echo $llistaractualitat['ID_CATEGORIA']; ?></td>                					
+					                <td><?php echo $llistaractualitat['ID_USUARI']; ?></td>
+                					<td><?php echo $llistaractualitat['CATEGORIA']; ?></td>
+					                <td><?php echo $llistaractualitat['NOM']; ?></td>	
+					                <td><?php echo $llistaractualitat['EMAIL']; ?></td>
+					                <td><?php echo $llistaractualitat['DATA_PUBLICACIO']; ?></td>
+					                <td><?php echo $llistaractualitat['ACCIO']; ?></td>
+					                
+            					</tr>
+           						 <?php } ?>
+						    </tbody>
+						    </table>
+			</div>
+		</div><!--/.row-->
 	</div><!--/.main-->
 
 	<script src="<?php echo base_url('assets/js/jquery-1.11.1.min.js'); ?>"></script>

@@ -37,6 +37,18 @@ class actualitat_model extends CI_Model {
       'URL' => $url
     );      
      $this->db->insert('URLS', $data);
+    
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+      $id = $this->db->insert_id();
+    $data = array(
+      'ID_ENLLAS' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_URLS', $data);  
  }
    public function get_urls() {
     $this->db->select('ID_ENLLAS, TITUL, URL');
@@ -83,9 +95,59 @@ public function getUsuaris_validar() {
     */
   }
 public function getHistActualitat(){
-    $this->db->select('a.ID_BLOG, a.ID_USUARI, a.HIST_ACTUALITAT, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, c.TITOL');
+    $this->db->select('a.ID_BLOG, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, c.TITOL');
     $this->db->from('HIST_ACTUALITAT as a, USUARIS as b, ACTUALITAT as c');
     $this->db->where('a.ID_BLOG = c.ID_BLOG and a.ID_USUARI = b.ID_USUARI ');
+    $query = $this->db->get();
+    return $query->result_array();
+}
+public function getHistCalendari(){
+    $this->db->select('a.ID_COMPETICIO, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, c.COMPETICIO');
+    $this->db->from('HIST_COMPETICIONS as a, USUARIS as b, COMPETICIONS as c');
+    $this->db->where('a.ID_COMPETICIO = c.ID_COMPETICIO and a.ID_USUARI = b.ID_USUARI ');
+    $query = $this->db->get();
+    return $query->result_array();
+}
+public function getHistDocuments(){
+    $this->db->select('a.ID_DOCUMENT, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, c.DOCUMENT');
+    $this->db->from('HIST_DOCUMENTS as a, USUARIS as b, DOCUMENTS as c');
+    $this->db->where('a.ID_DOCUMENT = c.ID_DOCUMENT and a.ID_USUARI = b.ID_USUARI ');
+    $query = $this->db->get();
+    return $query->result_array();
+}
+public function getHistGaleries(){
+    $this->db->select('a.ID_GALERIA, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, c.NOM as GALERIA');
+    $this->db->from('HIST_GALERIES as a, USUARIS as b, GALERIES as c');
+    $this->db->where('a.ID_GALERIA = c.ID and a.ID_USUARI = b.ID_USUARI ');
+    $query = $this->db->get();
+    return $query->result_array();
+}
+
+public function getHistUsuaris(){
+    $this->db->select('a.ID_USURAI_REGISTRAT, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, b.NOM as USUARI_REGSITRAT');
+    $this->db->from('HIST_USUARIS as a, USUARIS as b');
+    $this->db->where('a.ID_USURAI_REGISTRAT = b.ID_USUARI ');
+    $query = $this->db->get();
+    return $query->result_array();
+}
+public function getHistUrls(){
+    $this->db->select('a.ID_ENLLAS, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, c.TITUL');
+    $this->db->from('HIST_URLS as a, USUARIS as b, URLS as c');
+    $this->db->where('a.ID_ENLLAS = c.ID_ENLLAS and a.ID_USUARI = b.ID_USUARI ');
+    $query = $this->db->get();
+    return $query->result_array();
+}
+public function getHistEstats(){
+    $this->db->select('a.ID_ESTAT, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, c.ESTAT');
+    $this->db->from('HIST_ESTATS as a, USUARIS as b, ESTATS as c');
+    $this->db->where('a.ID_ESTAT = c.ID_ESTAT and a.ID_USUARI = b.ID_USUARI ');
+    $query = $this->db->get();
+    return $query->result_array();
+}
+public function getHistCategories(){
+    $this->db->select('a.ID_CATEGORIA, a.ID_USUARI, a.DATA_PUBLICACIO,a.ACCIO, b.NOM, b.EMAIL, c.CATEGORIA');
+    $this->db->from('HIST_CATEGORIES as a, USUARIS as b, CATEGORIES as c');
+    $this->db->where('a.ID_CATEGORIA = c.ID_CATEGORIA and a.ID_USUARI = b.ID_USUARI ');
     $query = $this->db->get();
     return $query->result_array();
 }
@@ -110,31 +172,36 @@ public function getHistActualitat(){
   }
 
   public function get_calendari_usuaris() {
-    $this->db->select('ID_COMPETICIO, COMPETICIO, DATA_HORA_1, DATA_HORA_2, ID_CATEGORIA, ID_ESTAT, LLOC, RESULTATS');
+    $this->db->select('ID_COMPETICIO, COMPETICIO, DATA_HORA_1, DATA_HORA_2, b.CATEGORIA, c.ESTAT, LLOC, RESULTATS');
+    $this->db->from('COMPETICIONS as a, CATEGORIES as b, ESTATS as c');
     $where = array('ESTAT ' => $this->session->userdata('ESTAT') , 'CATEGORIA ' => $this->session->userdata('CATEGORIA'));
-     $this->db->where($where);
-    $query = $this->db->get('COMPETICIONS');
+    $this->db->where($where);
+    $this->db->where('a.ID_CATEGORIA = b.ID_CATEGORIA and a.ID_ESTAT = c.ID_ESTAT');
+    $query = $this->db->get();
     return $query->result_array();
   }
 
-  public function crearActualitat($titol, $comentari, $foto, $usuari) {
+  public function crearActualitat($titol, $comentari, $foto, $usuari, $date) {
 
-    $date = date();
       $data = array(
-      'ID_USUARI' => $usuari,
-      'DATA_PUBLICACIO' => $date
-    );
- 
-    $this->db->insert('HIST_ACTUALITAT', $data);
-
-        $data = array(
       'titol' => $titol,
       'comentari' => $comentari,
       'foto' => $foto
     );
- 
     $this->db->insert('ACTUALITAT', $data);
-    
+
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+
+    $id = $this->db->insert_id();
+    $data = array(
+      'ID_BLOG' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_ACTUALITAT', $data);  
   }
 
   public function crearDocument($nom, $document) {
@@ -144,15 +211,38 @@ public function getHistActualitat(){
     );
  
     $this->db->insert('DOCUMENTS', $data);
-  }
 
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+    $id = $this->db->insert_id();
+    $data = array(
+      'ID_DOCUMENT' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_DOCUMENTS', $data);  
+  }
 
   public function insertar_estats($estat) {
     $data = array(
       'estat' => $estat
     );
- 
     $this->db->insert('ESTATS', $data);
+
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+
+    $id = $this->db->insert_id();
+    $data = array(
+      'ID_ESTAT' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_ESTATS', $data);  
   }
 
     public function insertar_categories($nom, $sexe, $prefix, $datai, $dataf, $estat){
@@ -166,6 +256,18 @@ public function getHistActualitat(){
     );
  
     $this->db->insert('CATEGORIES', $data);
+
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+    $id = $this->db->insert_id();
+    $data = array(
+      'ID_CATEGORIA' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_CATEGORIES', $data);  
   }
 
 
@@ -184,6 +286,18 @@ public function getHistActualitat(){
     );
 
     $this->db->insert('USUARIS', $data);
+
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+    $id = $this->db->insert_id();
+    $data = array(
+      'ID_USURAI_REGISTRAT' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_USUARIS', $data);  
   }
 
   public function inserta_calendari($competicio, $data_hora_1, $data_hora_2, $estat, $categoria,  $lloc, $resultats){
@@ -196,7 +310,20 @@ public function getHistActualitat(){
       'lloc' => $lloc,
       'resultats' => $resultats
     );
+
     $this->db->insert('COMPETICIONS', $data);
+
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+    $id = $this->db->insert_id();
+    $data = array(
+      'ID_COMPETICIO' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_COMPETICIONS', $data);  
   }
 
    public function crearGaleria($titol, $url) {
@@ -205,11 +332,25 @@ public function getHistActualitat(){
       'URL' => $url
     );
      $this->db->insert('GALERIES', $data);
-  }
-   public function crearGaleria_foto($titol, $foto) {
+
+    $usuari = $this->session->userdata('ID_USUARI');
+    $date = date('Y-m-d H:i:s');
+
+    $id = $this->db->insert_id();
     $data = array(
+      'ID_GALERIA' => $id,
+      'ID_USUARI' => $usuari,
+      'DATA_PUBLICACIO' => $date,
+      'ACCIO' => 'Inserta'
+    );
+    $this->db->insert('HIST_GALERIES', $data);  
+  }
+   public function crearGaleria_foto($titol, $foto, $nom) {
+    $id = $this->db->insert_id();
+    $data = array(
+      'NOM' => $nom,
       'ID_GALERIA' => $titol,
-      'URL' => $foto
+      'URL' => $foto,
     );
 
     $this->db->insert('FOTOS', $data);
@@ -286,16 +427,7 @@ public function getHistActualitat(){
     $query = $this->db->get(); 
     return $query;
   }
-    function modificar_resultats($id, $resultats) {
-        
-        $data = array(
-        'ID_COMPETICIO' => $id,
-        'resultats' => $resultats
-        );
 
-        $this->db->where('ID_COMPETICIO', $id);
-        return $this->db->update('COMPETICIONS ', $data);
-    }
 
   
 

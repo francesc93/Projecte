@@ -115,6 +115,13 @@ class Admin extends CI_Controller {
 			$this->load->model('actualitat_model');	
 			$data = array();
 			$data['actualitat'] = $this->actualitat_model->getHistActualitat();
+			$data['calendari'] = $this->actualitat_model->getHistCalendari();
+			$data['documents'] = $this->actualitat_model->getHistDocuments();
+			$data['galeries'] = $this->actualitat_model->getHistGaleries();			
+			$data['usuaris'] = $this->actualitat_model->getHistUsuaris();
+			$data['urls'] = $this->actualitat_model->getHistUrls();		
+			$data['estats'] = $this->actualitat_model->getHistEstats();	
+			$data['categories'] = $this->actualitat_model->getHistCategories();	
 			$this->load->view('admin/gestiohistorial', $data); 
 		}else{
 			redirect('client/login');
@@ -169,7 +176,8 @@ class Admin extends CI_Controller {
 		    {
 		        $titol = $this->input->post('titol');
 				$comentari = $this->input->post('comentari');
-				$usuari = $this->session->userdata('ID_USUARI');
+				
+				
 				$config_file = array (
 				'upload_path' => './actualitat/',
 				'allowed_types' => 'png|jpg|jpeg',
@@ -184,13 +192,13 @@ class Admin extends CI_Controller {
 				if (!$this->upload->do_upload('foto')) {
 					$foto = base_url()."assets/client/img/escut2.png";		  
 					$this->load->model('actualitat_model');
-					$this->actualitat_model->crearActualitat($titol, $comentari, $foto, $usuari);
+					$this->actualitat_model->crearActualitat($titol, $comentari, $foto);
 					redirect('admin/actualitat');
 				}
 				else {
 					$foto = base_url()."actualitat/".$this->upload->file_name;		  
 					$this->load->model('actualitat_model');
-					$this->actualitat_model->crearActualitat($titol, $comentari, $foto, $usuari);
+					$this->actualitat_model->crearActualitat($titol, $comentari, $foto);
 					redirect('admin/actualitat');
 	        	}
 	    }
@@ -393,8 +401,8 @@ class Admin extends CI_Controller {
 	echo $foto =base_url()."galeria/".$titol."/".$this->upload->get_multi_upload_data()[$i]["file_name"];
 	echo("<br />");
 	$this->load->model('actualitat_model');
-	$this->actualitat_model->crearGaleria_foto($titol, $foto);
-	
+	$nom = $this->upload->get_multi_upload_data()[$i]["file_name"];
+	$this->actualitat_model->crearGaleria_foto($titol, $foto, $nom);
 
 	}redirect('admin/galeria');
 	}
@@ -473,7 +481,7 @@ class Admin extends CI_Controller {
 					);
 				   $this->upload->initialize($config_file);
 				   if (!$this->upload->do_upload('foto')) {
-						$foto = NULL;	
+				 $foto = base_url()."assets/client/img/escut2.png";	
 				   
 				   $nom = $this->input->post('nom'); 
 				   $cognoms = $this->input->post('cognoms');

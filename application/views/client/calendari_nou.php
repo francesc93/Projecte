@@ -220,7 +220,7 @@
 					  <label>Data : &nbsp; <?php ?> <?php ?>' + calEvent.start2 + '</label><br/>\
 					  <label>Data fi : &nbsp; <?php ?> <?php ?>' + calEvent.end2 + '</label><br/>\
 					  <label>Lloc : &nbsp; <?php ?> <?php ?>' + calEvent.lloc + '</label><br/>\
-					  <label>Resultat : </label>&nbsp;&nbsp;<a class="btn btn-read-more" target="_blank" href="' + calEvent.resultat + '"><?php ?> <?php ?>' + calEvent.resultat + '</a><br/>\
+					  <?php if(' + calEvent.resultat + '){?><label>Resultat : </label>&nbsp;&nbsp;<a class="btn btn-read-more" target="_blank" href="' + calEvent.resultat + '"><?php ?> <?php ?>' + calEvent.resultat + '</a><br/><?php } ?>\
 				   </form>\
 				 </div>\
 				 <div class="modal-footer">\

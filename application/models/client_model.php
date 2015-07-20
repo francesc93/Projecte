@@ -52,8 +52,9 @@ class client_model extends CI_Model  {
     $this->db->insert('VALIDAR_USUARIS', $data);
   }
     public function usuario_por_nombre_contrasena($email, $contrasenya){
-    $this->db->select('ID_USUARI,EMAIL, NOM, CONTRASENYA,EMAIL, COGNOMS,FOTO, DATA_NAIXEMENT, ROL, ID_ESTAT, ID_CATEGORIA');
-    $query = $this->db->from('USUARIS');
+     $this->db->select('a.ID_USUARI, NOM, a.EMAIL, a.COGNOMS, a.FOTO, a.DATA_NAIXEMENT, a.ROL, c.ESTAT, b.CATEGORIA, a.SEXE');
+    $this->db->from('USUARIS as a, CATEGORIES as b, ESTATS as c');
+    $this->db->where('a.ID_ESTAT = c.ID_ESTAT and a.ID_CATEGORIA = b.ID_CATEGORIA');
     $where = array('EMAIL ' => $email , 'CONTRASENYA ' => $contrasenya);
     $this->db->where($where);
     $consulta = $this->db->get();
